@@ -1,7 +1,9 @@
 "use client"
 
+import dynamic from "next/dynamic";
+const Nosotros = dynamic(() => import("../components/Nosotros"), { ssr: false });
+
 import Header from '@/components/Header'
-import Nosotros from '@/components/Nosotros'
 import Servicios from '@/components/Servicios'
 import CallToAction from '@/components/CallToAction'
 
