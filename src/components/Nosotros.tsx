@@ -56,7 +56,7 @@ export default function Nosotros() {
   }, [x, lastScrollY]);
 
   return (
-    <section id="nosotros" className="pb-16 overflow-x-hidden">
+    <section id="noi" className="pb-16 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-8">
           {/* Texto */}
