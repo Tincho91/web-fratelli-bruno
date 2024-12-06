@@ -93,20 +93,12 @@ export default function Navbar() {
               <Link
                 href="https://fratelli-bruno.vercel.app/#noi"
                 className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection("noi");
-                }}
               >
                 Chi Siamo
               </Link>
               <Link
                 href="https://fratelli-bruno.vercel.app/#servizi"
                 className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection("noi");
-                }}
               >
                 Servizi
               </Link>
