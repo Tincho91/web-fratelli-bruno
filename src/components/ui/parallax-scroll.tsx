@@ -29,7 +29,7 @@ export const ParallaxScroll = ({
 
   return (
     <div
-      className={cn("h-[40rem] items-start overflow-y-auto custom-scrollbar max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 px-4", className)}
+      className={cn("max-h-[90vh] items-start overflow-y-auto custom-scrollbar max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 px-4", className)}
       ref={gridRef}
     >
       <div

@@ -56,7 +56,7 @@ export default function Nosotros() {
   }, [x, lastScrollY]);
 
   return (
-    <section id="noi" className="pb-16 overflow-x-hidden">
+    <section id="noi" className="pb-16 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-8">
           {/* Texto */}
@@ -80,7 +80,7 @@ export default function Nosotros() {
               transform: window.innerWidth >= 768 ? desktopTransform : mobileTransform,
               opacity: opacity,
             }}
-            className="flex-1 w-full max-w-sm md:max-w-lg"
+            className="flex-1 w-full max-w-xs md:max-w-lg"
           >
             <img
               src="/brunoFranco.png"
