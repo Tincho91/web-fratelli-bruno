@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import Link from 'next/link';
-import { Menu } from 'lucide-react';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import Link from "next/link";
+import { Menu } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -12,13 +12,17 @@ export default function Navbar() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const closeMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   function scrollToSection(id: string): void {
     const element = document.getElementById(id);
 
     if (element) {
       element.scrollIntoView({
         behavior: "smooth", // Desplazamiento suave
-        block: "center",    // Posiciona la sección en el centro de la ventana
+        block: "center", // Posiciona la sección en el centro de la ventana
       });
     } else {
       console.warn(`Elemento con id "${id}" no encontrado.`);
@@ -27,12 +31,14 @@ export default function Navbar() {
 
   return (
     <nav className="fixed w-full z-50">
-      <div className=' backdrop-blur-md bg-slate-200 bg-opacity-70'>
+      <div className="backdrop-blur-md bg-slate-200 bg-opacity-70">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <Link href="/" className="text-2xl font-bold text-sepia">Fratelli Bruno</Link>
+                <Link href="/" className="text-2xl font-bold text-sepia">
+                  Fratelli Bruno
+                </Link>
               </div>
             </div>
             <div className="hidden md:block">
@@ -79,7 +85,6 @@ export default function Navbar() {
         </div>
       </div>
       {/* Mobile menu */}
-
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -93,21 +98,34 @@ export default function Navbar() {
               <Link
                 href="https://fratelli-bruno.vercel.app/#noi"
                 className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors"
+                onClick={() => {
+                  scrollToSection("noi");
+                  closeMenu(); // Cierra el menú
+                }}
               >
                 Chi Siamo
               </Link>
               <Link
                 href="https://fratelli-bruno.vercel.app/#servizi"
                 className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors"
+                onClick={() => {
+                  scrollToSection("servizi");
+                  closeMenu(); // Cierra el menú
+                }}
               >
                 Servizi
               </Link>
-              <Link href="/galleria" className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors">Galleria</Link>
+              <Link
+                href="/galleria"
+                className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors"
+                onClick={closeMenu} // Solo cierra el menú
+              >
+                Galleria
+              </Link>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-
     </nav>
   );
 }
