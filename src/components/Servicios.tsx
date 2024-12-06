@@ -19,7 +19,7 @@ export default function Servicios() {
           >
             <div className="relative z-10"> 
               <h3 className="text-xl font-semibold mb-2 text-black">Ospitalità e ricettività</h3>
-              <p className="text-black">La nostra esperienza nel settore alberghiero garantisce un'accoglienza di qualità.</p>
+              <p className="text-black">La nostra esperienza nel settore alberghiero garantisce un&apos;accoglienza di qualità.</p>
             </div>
           </div>
           <div 

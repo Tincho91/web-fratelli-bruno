@@ -1,5 +1,6 @@
 "use client"
 
+import Link from 'next/link';
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -18,14 +19,14 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <a href="/" className="text-2xl font-bold text-sepia">Fratelli Bruno</a>
+                <Link href="/" className="text-2xl font-bold text-sepia">Fratelli Bruno</Link>
               </div>
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <a href="http://localhost:3000/#nosotros" className="text-sepia hover:bg-sepia hover:text-old-paper px-3 py-2 rounded-md text-sm font-medium transition-colors">Chi Siamo</a>
-                <a href="http://localhost:3000/#servicios" className="text-sepia hover:bg-sepia hover:text-old-paper px-3 py-2 rounded-md text-sm font-medium transition-colors">Servizi</a>
-                <a href="/galleria" className="text-sepia hover:bg-sepia hover:text-old-paper px-3 py-2 rounded-md text-sm font-medium transition-colors">Galleria</a>
+                <Link href="http://localhost:3000/#nosotros" className="text-sepia hover:bg-sepia hover:text-old-paper px-3 py-2 rounded-md text-sm font-medium transition-colors">Chi Siamo</Link>
+                <Link href="http://localhost:3000/#servicios" className="text-sepia hover:bg-sepia hover:text-old-paper px-3 py-2 rounded-md text-sm font-medium transition-colors">Servizi</Link>
+                <Link href="/galleria" className="text-sepia hover:bg-sepia hover:text-old-paper px-3 py-2 rounded-md text-sm font-medium transition-colors">Galleria</Link>
               </div>
             </div>
             <div className="md:hidden">
@@ -48,9 +49,9 @@ export default function Navbar() {
             className="md:hidden absolute top-16 left-0 w-full z-50 backdrop-blur-md bg-slate-200 bg-opacity-70"
           >
             <div className="shadow-lg px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <a href="http://localhost:3000/#nosotros" className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors">Chi Siamo</a>
-              <a href="http://localhost:3000/#servicios" className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors">Servizi</a>
-              <a href="/galleria" className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors">Galleria</a>
+              <Link href="http://localhost:3000/#nosotros" className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors">Chi Siamo</Link>
+              <Link href="http://localhost:3000/#servicios" className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors">Servizi</Link>
+              <Link href="/galleria" className="text-sepia hover:bg-sepia hover:text-old-paper block px-3 py-2 rounded-md text-base font-medium transition-colors">Galleria</Link>
             </div>
           </motion.div>
         )}

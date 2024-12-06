@@ -61,7 +61,7 @@ export default function Nosotros() {
             <p className="mb-4">
               Fondata nel 1995 da Fiore Bruno, la nostra azienda ha una
               lunga storia di eccellenza nel settore
-              dell'ospitalità e della gestione immobiliare. Da allora,
+              dell&apos;ospitalità e della gestione immobiliare. Da allora,
               abbiamo continuato a crescere e ad evolverci,
               mantenendo sempre i valori di qualità e servizio che
               ci hanno reso un punto di riferimento nel nostro

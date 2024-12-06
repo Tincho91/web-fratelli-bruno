@@ -1,6 +1,5 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react";
 import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 
 
