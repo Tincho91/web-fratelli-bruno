@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
 export default function Nosotros() {
   const x = useMotionValue(100); 
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const desktopTransform = useTransform(x, [100, 0, -100], [
     "translateX(100px)", 
@@ -20,11 +21,14 @@ export default function Nosotros() {
   const opacity = useTransform(x, [100, 0, -100], [0, 1, 0]);
 
   useEffect(() => {
-    let lastScrollY = window.scrollY;
     let ticking = false;
 
     const handleScroll = () => {
-      lastScrollY = window.scrollY;
+      const currentScrollY = window.scrollY;
+      if (currentScrollY !== lastScrollY) {
+        setLastScrollY(currentScrollY); // Update lastScrollY if it changes
+      }
+
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const section = document.getElementById("image-container");
@@ -49,7 +53,7 @@ export default function Nosotros() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [x]);
+  }, [x, lastScrollY]);
 
   return (
     <section id="nosotros" className="pb-16">
