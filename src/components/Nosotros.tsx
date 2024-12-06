@@ -57,7 +57,7 @@ export default function Nosotros() {
 
   return (
     <section id="noi" className="pb-16 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -top-20">
         <div className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-8">
           {/* Texto */}
           <div className="flex-1 z-10 text-left md:relative">
