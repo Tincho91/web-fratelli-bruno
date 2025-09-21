@@ -24,12 +24,13 @@ function formatDate(value?: Date | null) {
 }
 
 interface BlogPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: BlogPageProps) {
+  const { slug } = await params;
   const session = await auth();
-  const post = await getPostBySlug(params.slug, session?.user?.role === "ADMIN");
+  const post = await getPostBySlug(slug, session?.user?.role === "ADMIN");
 
   if (!post) {
     return {};
@@ -42,8 +43,9 @@ export async function generateMetadata({ params }: BlogPageProps) {
 }
 
 export default async function BlogArticlePage({ params }: BlogPageProps) {
+  const { slug } = await params;
   const session = await auth();
-  const post = await getPostBySlug(params.slug, session?.user?.role === "ADMIN");
+  const post = await getPostBySlug(slug, session?.user?.role === "ADMIN");
 
   if (!post) {
     notFound();
