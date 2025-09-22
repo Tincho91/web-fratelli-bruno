@@ -6,7 +6,7 @@ const Nosotros = dynamic(() => import("../components/Nosotros"), { ssr: false })
 import Header from '@/components/Header'
 import Servicios from '@/components/Servicios'
 import CallToAction from '@/components/CallToAction'
-import Contacto from "@/components/Contacto";
+import Contatti from "@/components/Contacto";
 
 export default function Home() {
   return (
@@ -15,8 +15,7 @@ export default function Home() {
       <Nosotros />
       <Servicios />
       <CallToAction />
-      <Contacto />
+      <Contatti />
     </div>
   )
 }
-

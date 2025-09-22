@@ -1,50 +1,81 @@
-﻿/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+
+const metrics = [
+  { value: "30+", label: "anni sul territorio" },
+  { value: "18", label: "cantieri attivi" },
+  { value: "5", label: "destinazioni lanciate" },
+];
 
 export default function Header() {
-  const [offsetY, setOffsetY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setOffsetY(window.scrollY);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
+  const imageShift = useTransform(scrollYProgress, [0, 1], ["0vh", "32vh"]);
+  const overlayStrength = useTransform(scrollYProgress, [0, 1], [0.35, 0.6]);
 
   return (
-    <header className="relative flex h-[85vh] items-center justify-center overflow-hidden">
-      <img
-        src="/headingBg.png"
-        alt="Plano histórico de destinos turísticos"
-        className="absolute inset-0 h-full w-full object-cover"
-        style={{ transform: `translateY(${offsetY * -0.25}px)` }}
+    <section ref={containerRef} className="relative h-[115vh] overflow-hidden">
+      <motion.div style={{ y: imageShift }} className="absolute inset-0">
+        <Image
+          src="/headingBg.png"
+          alt="Panorama di localita italiana"
+          fill
+          priority
+          className="object-cover"
+        />
+      </motion.div>
+
+      <motion.div
+        aria-hidden
+        style={{ opacity: overlayStrength }}
+        className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-black/80"
       />
-      <div className="relative z-10 max-w-4xl px-4 text-center text-ink">
-        <p className="text-xs uppercase tracking-[0.4em] text-sepia">Fratelli Bruno Francesco e Carlo & C. S.n.c.</p>
-        <h1 className="mt-6 text-4xl font-bold sm:text-5xl md:text-6xl">
-          Hospitalidad, construcción y gestión inmobiliaria con visión integral
-        </h1>
-        <p className="mt-6 text-lg text-ink/80 sm:text-xl">
-          Desde la costa italiana hasta destinos rurales, diseñamos experiencias turísticas, dirigimos proyectos de restauración y actuamos como general contractor para complejos hoteleros, residenciales y comerciales.
-        </p>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href="#servizi"
-            className="rounded-full bg-sepia px-6 py-3 text-sm font-semibold uppercase tracking-widest text-old-paper transition hover:bg-ink"
-          >
-            Ver servicios
-          </a>
-          <a
-            href="#contacto"
-            className="rounded-full border border-sepia/40 px-6 py-3 text-sm font-semibold uppercase tracking-widest text-sepia transition hover:bg-ink hover:text-old-paper"
-          >
-            Solicitar consultoría
-          </a>
+
+      <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-center px-6 sm:px-8 lg:px-0">
+        <div className="max-w-3xl space-y-6">
+          <span className="text-xs uppercase tracking-[0.6em] text-muted">Fratelli Bruno</span>
+          <h1 className="text-4xl font-heading uppercase leading-tight tracking-tight text-foreground sm:text-6xl md:text-7xl">
+            Idee che respirano tra ospitalita, cantieri e gestione patrimoniale
+          </h1>
+          <p className="max-w-xl text-sm text-foreground/70 sm:text-base">
+            Trasformiamo luoghi in esperienze dinamiche: resort, residenze e asset commerciali che evolvono con chi li
+            vive. Guidiamo visione, architettura e operativita con un unico team.
+          </p>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+            <motion.a
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.98 }}
+              href="#servizi"
+              className="inline-flex items-center justify-center rounded-full border border-foreground/50 px-6 py-3 text-xs uppercase tracking-[0.4em] transition-colors duration-300 hover:border-accent hover:text-accent"
+            >
+              Esplora servizi
+            </motion.a>
+            <motion.a
+              whileHover={{ x: 4 }}
+              href="#contatti"
+              className="inline-flex items-center text-xs uppercase tracking-[0.4em] text-foreground/70 transition-colors duration-300 hover:text-accent"
+            >
+              Parliamo del tuo progetto
+            </motion.a>
+          </div>
+        </div>
+
+        <div className="mt-16 flex flex-col gap-6 text-xs uppercase tracking-[0.35em] text-foreground/60 sm:mt-24 sm:flex-row sm:items-center sm:justify-between">
+          <div className="hidden h-px flex-1 bg-foreground/20 sm:block" aria-hidden />
+          <div className="flex flex-wrap gap-6 sm:gap-10">
+            {metrics.map((metric) => (
+              <div key={metric.label} className="space-y-2">
+                <p className="text-3xl font-heading tracking-tight text-foreground sm:text-4xl">{metric.value}</p>
+                <p>{metric.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="hidden h-px flex-1 bg-foreground/20 sm:block" aria-hidden />
         </div>
       </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-old-paper/80 via-old-paper/20 to-transparent" aria-hidden />
-    </header>
+    </section>
   );
 }
-

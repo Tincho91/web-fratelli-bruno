@@ -1,77 +1,73 @@
-﻿"use client";
+"use client";
 
-import { Facebook, Instagram, Linkedin } from "lucide-react";
+import Link from "next/link";
+
+const aboutLinks = [
+  { href: "#noi", label: "Chi siamo" },
+  { href: "/progetti", label: "Progetti" },
+  { href: "/blog", label: "Blog" },
+];
+
+const serviceLinks = [
+  "Ospitalita integrata",
+  "Costruzione e sviluppo",
+  "Gestione immobiliare",
+  "Consulenza tecnica",
+];
 
 const year = new Date().getFullYear();
 
 export default function Footer() {
   return (
-    <footer className="bg-ink text-old-paper">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-4">
-          <div className="space-y-3">
-            <p className="text-xs uppercase tracking-[0.4em] text-sepia">Fratelli Bruno</p>
-            <p className="text-sm text-old-paper/80">
-              Francesco y Carlo Bruno lideran proyectos turísticos, gastronómicos e inmobiliarios con soluciones llave en mano para inversionistas y territorios que desean crecer.
+    <footer className="relative mt-32 overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,var(--accent-soft),transparent_70%)]" aria-hidden />
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.04)_0%,rgba(0,0,0,0)_52%)]" aria-hidden />
+
+      <div className="relative mx-auto flex min-h-[60vh] max-w-6xl flex-col justify-between gap-16 px-6 py-16 sm:px-8 lg:px-0">
+        <div className="grid gap-12 md:grid-cols-[1.2fr,1fr]">
+          <div className="max-w-xl space-y-6">
+            <span className="text-xs uppercase tracking-[0.5em] text-muted">Fratelli Bruno</span>
+            <p className="text-sm text-muted">
+              Strategie, cantieri e gestione per destinazioni che vogliono sorprendere. Siamo al fianco di investitori e
+              territori dalla prima idea alla gestione quotidiana.
             </p>
+            <Link
+              href="#contatti"
+              className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.4em] text-foreground transition-colors duration-300 hover:text-accent"
+            >
+              Pianifica con noi
+            </Link>
           </div>
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-sepia">Servicios</h3>
-            <ul className="mt-4 space-y-2 text-sm text-old-paper/80">
-              <li>Turismo y hospitalidad</li>
-              <li>Restauración y bares</li>
-              <li>Construcción y desarrollo</li>
-              <li>Gestión inmobiliaria</li>
-              <li>Consultoría técnica</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-sepia">Contacto</h3>
-            <ul className="mt-4 space-y-2 text-sm text-old-paper/80">
-              <li>Via Roma 125, Verona, Italia</li>
-              <li>+39 045 123 4567</li>
-              <li>projects@fratellibruno.it</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-sepia">Síguenos</h3>
-            <p className="mt-4 text-sm text-old-paper/80">
-              Inspiración turística, avances de obras y oportunidades de inversión.
-            </p>
-            <div className="mt-4 flex gap-3">
-              <a
-                href="https://www.facebook.com"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Facebook"
-                className="rounded-full border border-old-paper/20 p-2 text-old-paper hover:bg-old-paper hover:text-ink"
-              >
-                <Facebook size={18} />
-              </a>
-              <a
-                href="https://www.instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Instagram"
-                className="rounded-full border border-old-paper/20 p-2 text-old-paper hover:bg-old-paper hover:text-ink"
-              >
-                <Instagram size={18} />
-              </a>
-              <a
-                href="https://www.linkedin.com"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn"
-                className="rounded-full border border-old-paper/20 p-2 text-old-paper hover:bg-old-paper hover:text-ink"
-              >
-                <Linkedin size={18} />
-              </a>
+
+          <div className="grid gap-10 sm:grid-cols-2">
+            <div className="space-y-3">
+              <h3 className="text-xs uppercase tracking-[0.4em] text-muted">Scopri</h3>
+              <div className="flex flex-col gap-2 text-sm text-foreground/70">
+                {aboutLinks.map((link) => (
+                  <Link key={link.label} href={link.href} className="transition-colors duration-300 hover:text-accent">
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-3">
+              <h3 className="text-xs uppercase tracking-[0.4em] text-muted">Servizi</h3>
+              <ul className="flex flex-col gap-2 text-sm text-foreground/70">
+                {serviceLinks.map((service) => (
+                  <li key={service}>{service}</li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-old-paper/20 pt-6 text-xs text-old-paper/60">
-          © {year} FRATELLI BRUNO Francesco e Carlo & C. S.n.c. Todos los derechos reservados.
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <h1 className="text-[18vw] leading-[0.8] text-foreground/5 sm:text-[14vw]">FRATELLI</h1>
+          <div className="space-y-2 text-xs text-foreground/60">
+            <p className="uppercase tracking-[0.35em]">{year} Tutti i diritti riservati</p>
+            <p>Via Roma 125, Verona, Italia</p>
+            <p>projects@fratellibruno.it</p>
+          </div>
         </div>
       </div>
     </footer>

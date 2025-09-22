@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
@@ -13,7 +13,7 @@ function SubmitButton() {
       className="w-full rounded-xl bg-sepia px-4 py-3 text-base font-semibold text-old-paper transition hover:bg-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sepia disabled:cursor-not-allowed disabled:opacity-60"
       disabled={pending}
     >
-      {pending ? "Ingresando..." : "Ingresar"}
+      {pending ? "Accesso in corso..." : "Accedi"}
     </button>
   );
 }
@@ -25,7 +25,7 @@ export default function LoginForm() {
     <form action={formAction} className="space-y-6">
       <div className="space-y-2">
         <label htmlFor="email" className="block text-sm font-semibold text-ink">
-          Correo electronico
+          Email
         </label>
         <input
           id="email"
@@ -39,7 +39,7 @@ export default function LoginForm() {
 
       <div className="space-y-2">
         <label htmlFor="password" className="block text-sm font-semibold text-ink">
-          Contrasena
+          Password
         </label>
         <input
           id="password"

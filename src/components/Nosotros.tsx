@@ -1,60 +1,97 @@
-﻿/* eslint-disable @next/next/no-img-element */
 "use client";
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+
+const pillars = [
+  {
+    title: "Missione",
+    description:
+      "Accompagnare investitori e territori nel costruire ospitalita, residenze e hub commerciali che emozionano e generano ritorni misurabili.",
+  },
+  {
+    title: "Metodo",
+    description:
+      "Un team unico per analisi, concept, progettazione e gestione. Dal masterplan fino all apertura quotidiana degli spazi.",
+  },
+];
+
+const highlights = [
+  "General contractor con focus su hospitality premium",
+  "Piani economici e operativi integrati",
+  "Gestione diretta o in co-partnership",
+  "Presenza in Italia, Svizzera e Balcani",
+];
 
 export default function Nosotros() {
   return (
-    <section id="noi" className="py-20">
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-        <div className="space-y-6">
-          <p className="text-xs uppercase tracking-[0.4em] text-sepia">Quiénes somos</p>
-          <h2 className="text-3xl font-semibold text-ink sm:text-4xl">
-            Tradición familiar para proyectos turísticos, gastronómicos e inmobiliarios
-          </h2>
-          <p className="text-ink/80">
-            FRATELLI BRUNO Francesco e Carlo & C. S.n.c. es una sociedad en nombre colectivo dirigida por los hermanos
-            Francesco y Carlo Bruno. Desde 1995 impulsamos destinos turísticos a través de complejos hoteleros,
-            restaurantes, bares y residencias que combinan autenticidad, confort y sostenibilidad.
-          </p>
-          <p className="text-ink/80">
-            Acompañamos cada inversión con consultoría técnica, gestión operativa y soluciones llave en mano que cubren
-            la compra de suelos, la construcción y la administración cotidiana de los activos.
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border border-sepia/20 bg-white/80 p-5 shadow-sm">
-              <h3 className="text-lg font-semibold text-ink">Misión</h3>
-              <p className="mt-2 text-sm text-ink/70">
-                Crear experiencias de hospitalidad con identidad local y excelencia operativa, cuidando cada detalle del
-                viaje del huésped.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-sepia/20 bg-white/80 p-5 shadow-sm">
-              <h3 className="text-lg font-semibold text-ink">Visión</h3>
-              <p className="mt-2 text-sm text-ink/70">
-                Ser el aliado estratégico de referencia para proyectos turísticos y de inversión inmobiliaria en Italia y
-                Europa.
-              </p>
-            </div>
+    <section id="noi" className="relative isolate overflow-hidden py-32">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,var(--accent-soft),transparent_65%)]" aria-hidden />
+      <div className="absolute inset-0 -z-20 bg-[linear-gradient(135deg,rgba(255,255,255,0.04)_0%,rgba(0,0,0,0)_60%)]" aria-hidden />
+
+      <div className="relative mx-auto grid max-w-6xl gap-16 px-6 sm:px-8 lg:grid-cols-[1.05fr,0.95fr] lg:px-0">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6 }}
+          className="space-y-10"
+        >
+          <div className="space-y-4">
+            <span className="text-xs uppercase tracking-[0.6em] text-muted">Chi siamo</span>
+            <h2 className="text-4xl font-heading uppercase leading-tight sm:text-5xl">
+              Una regia unica per ospitalita, costruzioni e gestione immobiliare
+            </h2>
+            <p className="text-sm text-foreground/70 sm:text-base">
+              Dal 1995 firmiamo resort, residenze e spazi commerciali con un approccio end-to-end. Valutiamo il potenziale
+              del territorio, definiamo il concept e coordiniamo cantieri e operazioni quotidiane.
+            </p>
           </div>
-        </div>
-        <div className="relative">
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-sepia/10 via-transparent to-sepia/10" aria-hidden />
-          <img
-            src="/brunoFranco.png"
-            alt="Socios fundadores de Fratelli Bruno"
-            className="relative z-10 w-full rounded-3xl border border-sepia/20 object-cover shadow-xl"
-          />
-          <div className="relative z-10 mt-6 rounded-2xl border border-sepia/20 bg-white/90 p-6 shadow-md">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-sepia">Capacidades clave</h3>
-            <ul className="mt-3 space-y-2 text-sm text-ink/80">
-              <li>• Dirección integral de hoteles, resorts, restaurantes y bares.</li>
-              <li>• Construcción, ampliación y remodelación de complejos turísticos.</li>
-              <li>• Compra, venta y gestión de activos comerciales, urbanos y rurales.</li>
-              <li>• Consultoría técnica y rol de general contractor en desarrollos inmobiliarios.</li>
+
+          <div className="grid gap-6 sm:grid-cols-2">
+            {pillars.map((pillar) => (
+              <div key={pillar.title} className="rounded-4xl border border-border/60 bg-background/60 p-6 backdrop-blur">
+                <h3 className="text-sm uppercase tracking-[0.35em] text-foreground/80">{pillar.title}</h3>
+                <p className="mt-3 text-sm text-foreground/65">{pillar.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-4xl border border-border/60 bg-background/40 p-6 backdrop-blur">
+            <h3 className="text-xs uppercase tracking-[0.45em] text-muted">Cosa ci distingue</h3>
+            <ul className="mt-4 grid gap-2 text-sm text-foreground/70 sm:grid-cols-2">
+              {highlights.map((highlight) => (
+                <li key={highlight} className="flex items-start gap-2">
+                  <span className="mt-[6px] h-1 w-6 bg-accent" aria-hidden />
+                  <span>{highlight}</span>
+                </li>
+              ))}
             </ul>
           </div>
-        </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="relative flex items-center justify-center"
+        >
+          <div className="relative mx-auto w-full max-w-md overflow-hidden aspect-[3/5] max-h-[60vh] sm:mx-0 sm:max-w-full lg:max-h-none rounded-4xl border border-border/60 bg-background/50 shadow-[0_40px_80px_rgba(0,0,0,0.45)]">
+            <Image
+              src="/brunoFranco.png"
+              alt="Team Fratelli Bruno"
+              fill
+              sizes="(max-width: 1024px) 100vw, 480px"
+              className="object-contain"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" aria-hidden />
+          </div>
+        </motion.div>
       </div>
     </section>
   );
 }
+
+
 

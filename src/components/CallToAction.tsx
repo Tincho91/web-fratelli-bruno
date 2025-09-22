@@ -1,39 +1,49 @@
-﻿"use client";
+"use client";
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 export default function CallToAction() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-
-  const variants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  } as const;
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section className="py-20">
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 rounded-3xl border border-sepia/20 bg-gradient-to-br from-old-paper/90 via-white to-old-paper/70 px-8 py-16 text-center shadow-xl">
-        <h2 className="text-3xl font-semibold text-ink sm:text-4xl">
-          Listos para liderar tu próximo destino turístico o desarrollo inmobiliario
-        </h2>
-        <p className="max-w-3xl text-base text-ink/70">
-          Con un equipo multidisciplinario, coordinamos cada fase del proyecto: análisis del terreno, diseño, construcción,
-          operaciones hoteleras y marketing. Cuéntanos qué quieres crear y te acompañaremos como socio estratégico.
-        </p>
+    <section className="py-28">
+      <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-0">
         <motion.div
           ref={ref}
-          variants={variants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="relative overflow-hidden rounded-4xl border border-border/60 bg-background/80 px-8 py-16 sm:px-12 sm:py-20"
         >
-          <a
-            href="#contacto"
-            className="inline-flex items-center gap-3 rounded-full bg-sepia px-8 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-old-paper transition hover:bg-ink"
-          >
-            Agendar una reunión
-          </a>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--accent-soft),transparent_60%)] opacity-70" aria-hidden />
+          <div className="relative z-10 flex flex-col gap-8 text-center">
+            <h2 className="text-3xl font-heading uppercase leading-tight sm:text-5xl">
+              Pronti a riaccendere la tua prossima destinazione
+            </h2>
+            <p className="mx-auto max-w-2xl text-sm text-foreground/70 sm:text-base">
+              Lavoriamo con amministrazioni, fondi e famiglie imprenditoriali per trasformare spazi in ecosistemi
+              redditizi. Raccontaci il contesto: creiamo un piano operativo, finanziario e narrativo su misura.
+            </p>
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.96 }}
+                href="#contatti"
+                className="inline-flex items-center justify-center rounded-full border border-accent px-8 py-3 text-xs uppercase tracking-[0.4em] text-accent transition-colors duration-300 hover:border-foreground hover:text-foreground"
+              >
+                Pianifica un incontro
+              </motion.a>
+              <motion.a
+                whileHover={{ x: 4 }}
+                href="#servizi"
+                className="inline-flex items-center text-xs uppercase tracking-[0.35em] text-foreground/70 transition-colors duration-300 hover:text-accent"
+              >
+                Guarda i servizi
+              </motion.a>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

@@ -4,18 +4,18 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const CATEGORY_OPTIONS = [
-  { value: "NEWS", label: "Noticias corporativas" },
+  { value: "NEWS", label: "Notizie aziendali" },
   { value: "TOURISM", label: "Turismo" },
-  { value: "HOSPITALITY", label: "Hospitalidad" },
-  { value: "RESTAURANT", label: "Restauración" },
-  { value: "REAL_ESTATE", label: "Inmobiliaria" },
-  { value: "CONSTRUCTION", label: "Construcción" },
-  { value: "CONSULTING", label: "Consultoría" },
+  { value: "HOSPITALITY", label: "Ospitalità" },
+  { value: "RESTAURANT", label: "Ristorazione" },
+  { value: "REAL_ESTATE", label: "Immobiliare" },
+  { value: "CONSTRUCTION", label: "Costruzioni" },
+  { value: "CONSULTING", label: "Consulenza" },
 ] as const;
 
 const STATUS_OPTIONS = [
-  { value: "DRAFT", label: "Borrador" },
-  { value: "PUBLISHED", label: "Publicado" },
+  { value: "DRAFT", label: "Bozza" },
+  { value: "PUBLISHED", label: "Pubblicato" },
 ] as const;
 
 function slugify(input: string) {
@@ -73,7 +73,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
     setMessage(null);
 
     if (!file.type.startsWith("image/")) {
-      setError("Selecciona un archivo de imagen válido");
+      setError("Seleziona un file immagine valido");
       return;
     }
 
@@ -92,16 +92,16 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
       const payload = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error((payload as { error?: string }).error ?? "No se pudo cargar la imagen");
+        throw new Error((payload as { error?: string }).error ?? "Impossibile caricare l'immagine");
       }
 
       const data = (payload as { data?: { url?: string; publicId?: string } }).data ?? {};
 
       setCoverImageKey(data.publicId ?? "");
       setCoverImageUrl(data.url ?? "");
-      setMessage("Imagen cargada correctamente");
+      setMessage("Immagine caricata correttamente");
     } catch (uploadError) {
-      setError(uploadError instanceof Error ? uploadError.message : "Ocurrió un error subiendo la imagen");
+      setError(uploadError instanceof Error ? uploadError.message : "Si e verificato un errore durante il caricamento dell'immagine");
     } finally {
       setIsUploading(false);
     }
@@ -113,7 +113,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
     setMessage(null);
 
     if (!isValid) {
-      setError("Revisa los campos obligatorios y el contenido mínimo (50 caracteres)");
+      setError("Controlla i campi obbligatori e il contenuto minimo (50 caratteri)");
       return;
     }
 
@@ -145,15 +145,15 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
       if (!response.ok) {
         const payload = await response.json().catch(() => ({}));
-        setError((payload as { error?: string }).error ?? "No se pudo guardar el artículo");
+        setError((payload as { error?: string }).error ?? "Impossibile salvare l'articolo");
         return;
       }
 
-      setMessage("Artículo guardado correctamente");
+      setMessage("Articolo salvato correttamente");
       router.push("/admin");
       router.refresh();
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Error inesperado al guardar");
+      setError(submitError instanceof Error ? submitError.message : "Errore imprevisto durante il salvataggio");
     } finally {
       setIsSaving(false);
     }
@@ -162,7 +162,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
   async function handleDelete() {
     if (!initialData) return;
 
-    const confirmed = window.confirm("¿Seguro que deseas eliminar este artículo? Esta acción no se puede deshacer.");
+    const confirmed = window.confirm("Sei sicuro di voler eliminare questo articolo? L'azione non puo essere annullata.");
 
     if (!confirmed) return;
 
@@ -175,7 +175,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
     if (!response.ok && response.status !== 204) {
       const payload = await response.json().catch(() => ({}));
-      setError((payload as { error?: string }).error ?? "No se pudo eliminar el artículo");
+      setError((payload as { error?: string }).error ?? "Impossibile eliminare l'articolo");
       return;
     }
 
@@ -189,7 +189,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
         <div className="space-y-6">
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-ink" htmlFor="title">
-              Título
+              Titolo
             </label>
             <input
               id="title"
@@ -197,7 +197,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
               onChange={(event) => setTitle(event.target.value)}
               required
               className="w-full rounded-xl border border-sepia/30 bg-white/80 px-4 py-3 text-base text-ink shadow-sm focus:border-sepia focus:outline-none focus:ring-2 focus:ring-sepia/30"
-              placeholder="Nuevas suites frente al lago"
+              placeholder="Nuove suite fronte lago"
             />
           </div>
 
@@ -211,13 +211,13 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
               onChange={(event) => setSlug(slugify(event.target.value))}
               required
               className="w-full rounded-xl border border-sepia/30 bg-white/80 px-4 py-3 text-base text-ink shadow-sm focus:border-sepia focus:outline-none focus:ring-2 focus:ring-sepia/30"
-              placeholder="nuevas-suites-frente-al-lago"
+              placeholder="nuove-suite-fronte-lago"
             />
           </div>
 
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-ink" htmlFor="excerpt">
-              Resumen breve
+              Riassunto breve
             </label>
             <textarea
               id="excerpt"
@@ -225,13 +225,13 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
               onChange={(event) => setExcerpt(event.target.value)}
               rows={3}
               className="w-full rounded-xl border border-sepia/30 bg-white/80 px-4 py-3 text-base text-ink shadow-sm focus:border-sepia focus:outline-none focus:ring-2 focus:ring-sepia/30"
-              placeholder="Presentamos la ampliación del complejo con espacios gastronómicos renovados."
+              placeholder="Presentiamo l'espansione del complesso con spazi di ristorazione rinnovati."
             />
           </div>
 
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-ink" htmlFor="content">
-              Contenido (Markdown)
+              Contenuto (Markdown)
             </label>
             <textarea
               id="content"
@@ -240,16 +240,16 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
               rows={16}
               required
               className="w-full rounded-xl border border-sepia/30 bg-white/80 px-4 py-3 font-mono text-sm text-ink shadow-sm focus:border-sepia focus:outline-none focus:ring-2 focus:ring-sepia/30"
-              placeholder={"## Encabezado\nDescribe el proyecto, servicios y resultados alcanzados..."}
+              placeholder={"## Titolo\nDescrivi il progetto, i servizi e i risultati ottenuti..."}
             />
-            <p className="text-xs text-ink/50">Puedes usar formato Markdown con tablas, listas y enlaces.</p>
+            <p className="text-xs text-ink/50">Puoi usare il formato Markdown con tabelle, elenchi e link.</p>
           </div>
         </div>
 
         <aside className="space-y-6">
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-ink" htmlFor="category">
-              Categoría
+              Categoria
             </label>
             <select
               id="category"
@@ -267,7 +267,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-ink" htmlFor="status">
-              Estado
+              Stato
             </label>
             <select
               id="status"
@@ -282,13 +282,13 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
               ))}
             </select>
             <p className="text-xs text-ink/50">
-              Los artículos publicados aparecen automáticamente en la web pública.
+              Gli articoli pubblicati compaiono automaticamente sul sito pubblico.
             </p>
           </div>
 
           <div className="space-y-3">
             <label className="block text-sm font-semibold text-ink">
-              Imagen de portada (opcional)
+              Immagine di copertina (facoltativa)
             </label>
             <input
               type="file"
@@ -302,10 +302,10 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
             {coverImageUrl && (
               <div className="overflow-hidden rounded-xl border border-sepia/20">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={coverImageUrl} alt="Portada" className="h-40 w-full object-cover" />
+                <img src={coverImageUrl} alt="Copertina" className="h-40 w-full object-cover" />
               </div>
             )}
-            {isUploading && <p className="text-xs text-ink/50">Subiendo imagen...</p>}
+            {isUploading && <p className="text-xs text-ink/50">Caricamento immagine...</p>}
           </div>
 
           <div className="space-y-3">
@@ -314,7 +314,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
               disabled={!isValid || isSaving}
               className="w-full rounded-xl bg-sepia px-4 py-3 text-sm font-semibold text-old-paper transition hover:bg-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sepia disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {isSaving ? "Guardando..." : mode === "create" ? "Publicar artículo" : "Guardar cambios"}
+              {isSaving ? "Salvataggio..." : mode === "create" ? "Pubblica articolo" : "Salva modifiche"}
             </button>
             {mode === "edit" && (
               <button
@@ -322,7 +322,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
                 onClick={handleDelete}
                 className="w-full rounded-xl border border-red-300 bg-white/80 px-4 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-50"
               >
-                Eliminar artículo
+                Elimina articolo
               </button>
             )}
             {message && <p className="text-xs font-semibold text-emerald-600">{message}</p>}
@@ -333,3 +333,4 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
     </form>
   );
 }
+
