@@ -1,7 +1,13 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { projectPayloadSchema } from "@/lib/validators/projects";
+
+interface RouteContext {
+  params: Promise<{
+    id: string;
+  }>;
+}
 
 function normalizePayload(data: Record<string, unknown>) {
   const normalized = { ...data };
@@ -36,14 +42,14 @@ function normalizePayload(data: Record<string, unknown>) {
   return normalized;
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: RouteContext) {
   const session = await auth();
 
   if (!session?.user || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   const exists = await prisma.projectGalleryItem.findUnique({ where: { id } });
 
@@ -90,14 +96,14 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   return NextResponse.json({ data: project });
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: RouteContext) {
   const session = await auth();
 
   if (!session?.user || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   const exists = await prisma.projectGalleryItem.findUnique({ where: { id } });
 
@@ -107,6 +113,10 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
   await prisma.projectGalleryItem.delete({ where: { id } });
 
-  return NextResponse.json({}, { status: 204 });
+  return new NextResponse(null, { status: 204 });
 }
+
+
+
+
 
