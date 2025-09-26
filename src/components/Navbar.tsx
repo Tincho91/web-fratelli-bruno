@@ -1,18 +1,28 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { cn } from "../../libs/utils";
 
-const NAV_ITEMS = [
+type NavItem =
+  | { key: string; label: string; mode: "scroll" }
+  | { key: string; label: string; mode: "link"; href: string };
+
+const NAV_ITEMS: NavItem[] = [
   { key: "noi", label: "Chi siamo", mode: "scroll" },
   { key: "servizi", label: "Servizi", mode: "scroll" },
   { key: "progetti", label: "Progetti", mode: "link", href: "/progetti" },
-  { key: "blog", label: "Blog", mode: "link", href: "/blog" },
   { key: "contatti", label: "Contatti", mode: "scroll" },
-] as const;
+  { key: "blog", label: "Blog", mode: "link", href: "/blog" },
+];
+
+const BLOG_NAV_ITEMS: NavItem[] = [
+  { key: "home", label: "Home", mode: "link", href: "/" },
+  { key: "blog", label: "Blog", mode: "link", href: "/blog" },
+];
 
 function scrollToSection(id: string) {
   const element = document.getElementById(id);
@@ -24,6 +34,9 @@ function scrollToSection(id: string) {
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const isBlogRoute = pathname?.startsWith("/blog") ?? false;
+  const navItems = isBlogRoute ? BLOG_NAV_ITEMS : NAV_ITEMS;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,17 +70,17 @@ export default function Navbar() {
       >
         <Link
           href="/"
-          className="text-xs uppercase tracking-[0.5em] text-muted transition-colors hover:text-foreground"
+          className="text-sm uppercase tracking-[0.45em] text-muted transition-colors hover:text-foreground"
         >
           Fratelli Bruno
         </Link>
 
         <div className="hidden items-center gap-10 md:flex">
-          {NAV_ITEMS.map((item) => {
+          {navItems.map((item) => {
             const className =
               "text-[0.7rem] uppercase tracking-[0.35em] text-foreground/80 transition-colors duration-300 hover:text-accent";
 
-            if (item.mode === "link" && item.href) {
+            if (item.mode === "link") {
               return (
                 <Link key={item.key} href={item.href} className={className}>
                   {item.label}
@@ -113,8 +126,8 @@ export default function Navbar() {
             className="pointer-events-auto fixed inset-0 z-40 flex flex-col gap-8 bg-background/95 px-6 py-28 backdrop-blur-xl md:hidden"
           >
             <div className="flex flex-col gap-6">
-              {NAV_ITEMS.map((item) => {
-                if (item.mode === "link" && item.href) {
+              {navItems.map((item) => {
+                if (item.mode === "link") {
                   return (
                     <Link
                       key={item.key}
