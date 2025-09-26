@@ -45,10 +45,7 @@ export default function Contatti() {
   }
 
   return (
-    <section id="contatti" className="relative isolate overflow-hidden py-32">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_bottom_left,var(--accent-soft),transparent_65%)]" aria-hidden />
-      <div className="absolute inset-0 -z-20 bg-[linear-gradient(160deg,rgba(255,255,255,0.04)_0%,rgba(0,0,0,0)_55%)]" aria-hidden />
-
+    <section id="contatti" className="relative z-20 py-32">
       <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-0">
         <div className="grid gap-12 lg:grid-cols-[1.1fr,0.9fr]">
           <div className="space-y-8">
@@ -144,3 +141,4 @@ export default function Contatti() {
     </section>
   );
 }
+

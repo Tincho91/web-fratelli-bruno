@@ -19,10 +19,7 @@ const year = new Date().getFullYear();
 
 export default function Footer() {
   return (
-    <footer className="relative mt-32 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,var(--accent-soft),transparent_70%)]" aria-hidden />
-      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.04)_0%,rgba(0,0,0,0)_52%)]" aria-hidden />
-
+    <footer className="relative z-20 mt-32 overflow-hidden">
       <div className="relative mx-auto flex min-h-[60vh] max-w-6xl flex-col justify-between gap-16 px-6 py-16 sm:px-8 lg:px-0">
         <div className="grid gap-12 md:grid-cols-[1.2fr,1fr]">
           <div className="max-w-xl space-y-6">
@@ -73,3 +70,4 @@ export default function Footer() {
     </footer>
   );
 }
+

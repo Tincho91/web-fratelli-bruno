@@ -31,10 +31,7 @@ const SERVICES = [
 
 export default function Servicios() {
   return (
-    <section id="servizi" className="relative isolate overflow-hidden py-28">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,var(--accent-soft),transparent_70%)]" aria-hidden />
-      <div className="absolute inset-x-0 top-0 -z-20 h-px bg-gradient-to-r from-transparent via-foreground/10 to-transparent" aria-hidden />
-
+    <section id="servizi" className="relative z-20 py-28">
       <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-0">
         <div className="flex flex-col gap-6 text-left sm:max-w-3xl">
           <span className="text-xs uppercase tracking-[0.6em] text-muted">Servizi</span>
@@ -81,3 +78,4 @@ export default function Servicios() {
     </section>
   );
 }
+

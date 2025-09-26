@@ -17,8 +17,8 @@ export default function Header() {
   const overlayStrength = useTransform(scrollYProgress, [0, 1], [0.35, 0.6]);
 
   return (
-    <section ref={containerRef} className="relative h-[115vh] overflow-hidden">
-      <motion.div style={{ y: imageShift }} className="absolute inset-0">
+    <section ref={containerRef} className="relative z-0 h-[115vh] overflow-visible">
+      <motion.div style={{ y: imageShift }} className="pointer-events-none absolute inset-0 z-0">
         <Image
           src="/headingBg.png"
           alt="Panorama di localita italiana"
@@ -31,16 +31,16 @@ export default function Header() {
       <motion.div
         aria-hidden
         style={{ opacity: overlayStrength }}
-        className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-black/80"
+        className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/85 via-black/60 to-black/20"
       />
 
-      <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-center px-6 sm:px-8 lg:px-0">
+      <div className="relative z-20 mx-auto flex h-full max-w-6xl flex-col justify-center px-6 sm:px-8 lg:px-0">
         <div className="max-w-3xl space-y-6">
           <span className="text-xs uppercase tracking-[0.6em] text-muted">Fratelli Bruno</span>
-          <h1 className="text-4xl font-heading uppercase leading-tight tracking-tight text-foreground sm:text-6xl md:text-7xl">
+          <h1 className="text-4xl font-heading uppercase leading-tight tracking-tight text-foreground text-shadow sm:text-6xl md:text-7xl">
             Idee che respirano tra ospitalita, cantieri e gestione patrimoniale
           </h1>
-          <p className="max-w-xl text-sm text-foreground/70 sm:text-base">
+          <p className="max-w-xl text-sm text-foreground/80 text-shadow sm:text-base">
             Trasformiamo luoghi in esperienze dinamiche: resort, residenze e asset commerciali che evolvono con chi li
             vive. Guidiamo visione, architettura e operativita con un unico team.
           </p>
@@ -79,3 +79,4 @@ export default function Header() {
     </section>
   );
 }
+
