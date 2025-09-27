@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { trackContactEmail, trackContactForm, trackContactPhone } from "@/lib/analytics/client";
 
 const infoCards: { label: string; value: ReactNode }[] = [
   {
@@ -12,12 +11,14 @@ const infoCards: { label: string; value: ReactNode }[] = [
     label: "Contatto diretto",
     value: (
       <div className="space-y-1">
-        <a href="tel:+390451234567" onClick={trackContactPhone} className="text-sm text-foreground transition-colors duration-300 hover:text-accent">
+        <a
+          href="tel:+390451234567"
+          className="text-sm text-foreground transition-colors duration-300 hover:text-accent"
+        >
           +39 045 123 4567
         </a>
         <a
           href="mailto:projects@fratellibruno.it"
-          onClick={trackContactEmail}
           className="text-sm text-foreground transition-colors duration-300 hover:text-accent"
         >
           projects@fratellibruno.it
@@ -32,13 +33,6 @@ export default function Contatti() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const nome = formData.get("nome");
-    const email = formData.get("email");
-    trackContactForm({
-      nome: typeof nome === "string" ? nome : undefined,
-      email: typeof email === "string" ? email : undefined,
-    });
     event.currentTarget.reset();
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 5000);

@@ -1,16 +1,9 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import clsx from "clsx";
-
-interface DashboardStats {
-  siteVisits: number;
-  articleViews: number;
-  projectViews: number;
-  contactInteractions: number;
-}
 
 interface DashboardPost {
   id: string;
@@ -21,7 +14,6 @@ interface DashboardPost {
   category: string;
   publishedAt: string | null;
   updatedAt: string;
-  interactionCount: number;
 }
 
 interface DashboardProject {
@@ -32,11 +24,10 @@ interface DashboardProject {
   secondaryImageUrl?: string | null;
   relatedPost?: { slug: string; title: string } | null;
   updatedAt: string;
-  interactionCount: number;
 }
 
 interface AdminDashboardTabsProps {
-  stats: DashboardStats;
+
   posts: DashboardPost[];
   projects: DashboardProject[];
   defaultTab?: string;
@@ -69,7 +60,7 @@ function toPlainText(markdown: string, maxLength = 180) {
   return `${plain.slice(0, maxLength - 1).trimEnd()}…`;
 }
 
-export default function AdminDashboardTabs({ stats, posts, projects, defaultTab }: AdminDashboardTabsProps) {
+export default function AdminDashboardTabs({ posts, projects, defaultTab }: AdminDashboardTabsProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -175,13 +166,6 @@ export default function AdminDashboardTabs({ stats, posts, projects, defaultTab 
 
       {activeTab === "overview" && (
         <div className="space-y-10">
-          <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <MetricCard label="Visite al sito" value={stats.siteVisits} description="Sessioni totali registrate" />
-            <MetricCard label="Letture articoli" value={stats.articleViews} description="Interazioni con il blog" />
-            <MetricCard label="Visualizzazioni progetti" value={stats.projectViews} description="Dettagli di galleria aperti" />
-            <MetricCard label="Contatti ricevuti" value={stats.contactInteractions} description="Modulo o click sui contatti" />
-          </section>
-
           <section className="grid gap-8 lg:grid-cols-2">
             <RecentTable
               title="Ultimi articoli"
@@ -189,7 +173,7 @@ export default function AdminDashboardTabs({ stats, posts, projects, defaultTab 
                 id: post.id,
                 title: post.title,
                 subtitle: post.status === "PUBLISHED" ? "Pubblicato" : "Bozza",
-                meta: `${formatDate(post.updatedAt)} · ${post.interactionCount} letture`,
+                meta: formatDate(post.updatedAt),
                 href: `/admin/posts/${post.slug}/edit`,
               }))}
               emptyLabel="Non ci sono articoli registrati."
@@ -201,7 +185,7 @@ export default function AdminDashboardTabs({ stats, posts, projects, defaultTab 
                 id: project.id,
                 title: toPlainText(project.description, 60),
                 subtitle: project.relatedPost ? `Collegato a ${project.relatedPost.title}` : undefined,
-                meta: `${formatDate(project.showcaseDate)} · ${project.interactionCount} visualizzazioni`,
+                meta: formatDate(project.showcaseDate),
                 href: `/admin/progetti/${project.id}/edit`,
               }))}
               emptyLabel="Non ci sono progetti registrati."
@@ -249,7 +233,6 @@ export default function AdminDashboardTabs({ stats, posts, projects, defaultTab 
                     <th className="px-6 py-3">Stato</th>
                     <th className="px-6 py-3">Categoria</th>
                     <th className="px-6 py-3">Aggiornato</th>
-                    <th className="px-6 py-3">Interazioni</th>
                     <th className="px-6 py-3">Azioni</th>
                   </tr>
                 </thead>
@@ -274,7 +257,6 @@ export default function AdminDashboardTabs({ stats, posts, projects, defaultTab 
                       </td>
                       <td className="px-6 py-4 align-top text-xs uppercase tracking-[0.3em] text-ink/70">{post.category}</td>
                       <td className="px-6 py-4 align-top text-sm">{formatDate(post.updatedAt)}</td>
-                      <td className="px-6 py-4 align-top text-sm">{post.interactionCount}</td>
                       <td className="px-6 py-4 align-top">
                         <div className="flex flex-col items-start gap-2 text-sm">
                           <Link
@@ -296,7 +278,7 @@ export default function AdminDashboardTabs({ stats, posts, projects, defaultTab 
                   ))}
                   {filteredPosts.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="px-6 py-12 text-center text-sm text-ink/60">
+                      <td colSpan={5} className="px-6 py-12 text-center text-sm text-ink/60">
                         Nessun articolo corrisponde ai filtri selezionati.
                       </td>
                     </tr>
@@ -334,7 +316,6 @@ export default function AdminDashboardTabs({ stats, posts, projects, defaultTab 
                     <th className="px-6 py-3">Descrizione</th>
                     <th className="px-6 py-3">Data</th>
                     <th className="px-6 py-3">Articolo correlato</th>
-                    <th className="px-6 py-3">Interazioni</th>
                     <th className="px-6 py-3">Azioni</th>
                   </tr>
                 </thead>
@@ -359,7 +340,6 @@ export default function AdminDashboardTabs({ stats, posts, projects, defaultTab 
                           <span className="text-ink/60">-</span>
                         )}
                       </td>
-                      <td className="px-6 py-4 align-top text-sm">{project.interactionCount}</td>
                       <td className="px-6 py-4 align-top">
                         <div className="flex flex-col items-start gap-2 text-sm">
                           <Link
@@ -381,7 +361,7 @@ export default function AdminDashboardTabs({ stats, posts, projects, defaultTab 
                   ))}
                   {filteredProjects.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="px-6 py-12 text-center text-sm text-ink/60">
+                      <td colSpan={4} className="px-6 py-12 text-center text-sm text-ink/60">
                         Nessun progetto corrisponde ai filtri selezionati.
                       </td>
                     </tr>
@@ -392,16 +372,6 @@ export default function AdminDashboardTabs({ stats, posts, projects, defaultTab 
           </div>
         </section>
       )}
-    </div>
-  );
-}
-
-function MetricCard({ label, value, description }: { label: string; value: number; description: string }) {
-  return (
-    <div className="rounded-3xl border border-sepia/20 bg-white/85 p-6 shadow-sm">
-      <p className="text-xs uppercase tracking-[0.4em] text-sepia">{label}</p>
-      <p className="mt-3 text-4xl font-semibold text-ink">{value}</p>
-      <p className="mt-2 text-sm text-ink/60">{description}</p>
     </div>
   );
 }
@@ -442,3 +412,12 @@ function RecentTable({ title, items, emptyLabel, cta }: RecentTableProps) {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+

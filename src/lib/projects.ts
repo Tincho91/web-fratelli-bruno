@@ -1,4 +1,4 @@
-﻿import { prisma } from "./prisma";
+import { prisma } from "./prisma";
 
 export async function getPublishedProjects(limit = 24) {
   return prisma.projectGalleryItem.findMany({
@@ -39,11 +39,6 @@ export async function getAllProjects() {
       },
       createdAt: true,
       updatedAt: true,
-      _count: {
-        select: {
-          interactionEvents: true,
-        },
-      },
     },
   });
 }
@@ -63,3 +58,29 @@ export async function getProjectById(id: string) {
     },
   });
 }
+export interface UpdateProjectInput {
+  description: string;
+  showcaseDate: Date;
+  mainImageUrl: string;
+  mainImageKey: string | null;
+  secondaryImageUrl: string | null;
+  secondaryImageKey: string | null;
+  relatedPostId: string | null;
+}
+
+export async function updateProject(id: string, data: UpdateProjectInput) {
+  return prisma.projectGalleryItem.update({
+    where: { id },
+    data,
+    select: {
+      id: true,
+      showcaseDate: true,
+      updatedAt: true,
+    },
+  });
+}
+
+export async function deleteProject(id: string) {
+  await prisma.projectGalleryItem.delete({ where: { id } });
+}
+

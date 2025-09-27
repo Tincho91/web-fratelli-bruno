@@ -1,8 +1,9 @@
 import AdminDashboardTabs from "@/components/admin/AdminDashboardTabs";
-import { prisma } from "@/lib/prisma";
 import { getAllPosts } from "@/lib/blog";
 import { getAllProjects } from "@/lib/projects";
-import { InteractionType } from "@prisma/client";
+
+type PostResult = Awaited<ReturnType<typeof getAllPosts>>[number];
+type ProjectResult = Awaited<ReturnType<typeof getAllProjects>>[number];
 
 interface AdminDashboardPageProps {
   searchParams: Promise<{ tab?: string }>;
@@ -11,29 +12,9 @@ interface AdminDashboardPageProps {
 export default async function AdminDashboardPage({ searchParams }: AdminDashboardPageProps) {
   const { tab } = await searchParams;
 
-  const [siteVisits, articleViews, projectViews, contactInteractions, posts, projects] = await Promise.all([
-    prisma.interactionEvent.count({ where: { type: InteractionType.SITE_VISIT } }),
-    prisma.interactionEvent.count({ where: { type: InteractionType.ARTICLE_VIEW } }),
-    prisma.interactionEvent.count({ where: { type: InteractionType.PROJECT_VIEW } }),
-    prisma.interactionEvent.count({
-      where: {
-        type: {
-          in: [InteractionType.CONTACT_FORM, InteractionType.CONTACT_EMAIL, InteractionType.CONTACT_PHONE],
-        },
-      },
-    }),
-    getAllPosts(),
-    getAllProjects(),
-  ]);
+  const [posts, projects] = await Promise.all([getAllPosts(), getAllProjects()]);
 
-  const stats = {
-    siteVisits,
-    articleViews,
-    projectViews,
-    contactInteractions,
-  };
-
-  const serializedPosts = posts.map((post) => ({
+  const serializedPosts = posts.map((post: PostResult) => ({
     id: post.id,
     title: post.title,
     slug: post.slug,
@@ -42,10 +23,9 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
     category: post.category,
     publishedAt: post.publishedAt?.toISOString() ?? null,
     updatedAt: post.updatedAt.toISOString(),
-    interactionCount: post._count?.interactionEvents ?? 0,
   }));
 
-  const serializedProjects = projects.map((project) => ({
+  const serializedProjects = projects.map((project: ProjectResult) => ({
     id: project.id,
     description: project.description,
     showcaseDate: project.showcaseDate.toISOString(),
@@ -58,12 +38,14 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
         }
       : null,
     updatedAt: project.updatedAt.toISOString(),
-    interactionCount: project._count?.interactionEvents ?? 0,
   }));
 
   return (
     <div className="space-y-10">
-      <AdminDashboardTabs stats={stats} posts={serializedPosts} projects={serializedProjects} defaultTab={tab} />
+      <AdminDashboardTabs posts={serializedPosts} projects={serializedProjects} defaultTab={tab} />
     </div>
   );
 }
+
+
+

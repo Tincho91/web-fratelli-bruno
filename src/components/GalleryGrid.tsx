@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
@@ -6,7 +6,6 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { AnimatePresence, motion } from "framer-motion";
-import { trackProjectView } from "@/lib/analytics/client";
 
 type ProjectItem = {
   id: string;
@@ -108,7 +107,6 @@ export default function GalleryGrid({ projects }: { projects: ProjectItem[] }) {
             type="button"
             onClick={() => {
               setSelected(project);
-              trackProjectView(project.id);
             }}
             className="group flex flex-col gap-4 rounded-3xl border border-sepia/20 bg-white/80 p-4 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sepia"
           >
@@ -124,7 +122,7 @@ export default function GalleryGrid({ projects }: { projects: ProjectItem[] }) {
               {project.relatedPost?.slug && (
                 <span className="inline-flex items-center gap-1 text-sm font-semibold text-sepia transition group-hover:text-ink">
                   Scopri di più
-                  <span aria-hidden>→</span>
+                  <span aria-hidden>?</span>
                 </span>
               )}
             </div>
@@ -170,7 +168,7 @@ export default function GalleryGrid({ projects }: { projects: ProjectItem[] }) {
                       className="inline-flex items-center gap-2 text-sm font-semibold text-sepia transition hover:text-ink"
                     >
                       Scopri di più sul progetto
-                      <span aria-hidden>→</span>
+                      <span aria-hidden>?</span>
                     </Link>
                   )}
                 </div>
@@ -196,3 +194,5 @@ export default function GalleryGrid({ projects }: { projects: ProjectItem[] }) {
     </>
   );
 }
+
+

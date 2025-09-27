@@ -1,4 +1,3 @@
-﻿import ArticleViewTracker from "@/components/analytics/ArticleViewTracker";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
@@ -55,7 +54,6 @@ export default async function BlogArticlePage({ params }: BlogPageProps) {
 
   return (
     <>
-      <ArticleViewTracker slug={post.slug} />
       <article className="relative isolate">
         <div className="absolute inset-0 bg-old-paper/60" aria-hidden />
         <div className="relative mx-auto max-w-4xl space-y-10 px-4 py-16 sm:px-6 lg:px-8">
@@ -98,3 +96,6 @@ export default async function BlogArticlePage({ params }: BlogPageProps) {
     </>
   );
 }
+
+
+
