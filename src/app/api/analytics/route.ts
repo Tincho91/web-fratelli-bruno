@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { InteractionType } from "@prisma/client";
 import { z } from "zod";
@@ -7,7 +7,7 @@ const payloadSchema = z.object({
   type: z.nativeEnum(InteractionType),
   postSlug: z.string().min(1).optional(),
   projectId: z.string().min(1).optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
         type: data.type,
         postId,
         projectId,
-        metadata: data.metadata ?? null,
+        ...(data.metadata !== undefined ? { metadata: data.metadata } : {}),
       },
     });
 
@@ -71,3 +71,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unexpected error" }, { status: 500 });
   }
 }
+
