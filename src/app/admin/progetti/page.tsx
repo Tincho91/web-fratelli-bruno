@@ -1,5 +1,5 @@
 ﻿import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { getAllProjects } from "@/lib/projects";
 
 function formatDate(value: Date) {
   return new Intl.DateTimeFormat("it-IT", {
@@ -14,16 +14,7 @@ export const metadata = {
 };
 
 export default async function AdminProjectsPage() {
-  const projects = await prisma.projectGalleryItem.findMany({
-    orderBy: [{ showcaseDate: "desc" }, { createdAt: "desc" }],
-    select: {
-      id: true,
-      description: true,
-      showcaseDate: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  });
+  const projects = await getAllProjects();
 
   return (
     <div className="space-y-10">
