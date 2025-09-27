@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { $Enums } from "@prisma/client";
+import { InteractionType } from "@prisma/client";
 import { z } from "zod";
-
-const { InteractionType } = $Enums;
 
 const payloadSchema = z.object({
   type: z.nativeEnum(InteractionType),

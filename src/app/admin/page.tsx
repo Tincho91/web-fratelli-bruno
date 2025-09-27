@@ -2,9 +2,7 @@ import AdminDashboardTabs from "@/components/admin/AdminDashboardTabs";
 import { prisma } from "@/lib/prisma";
 import { getAllPosts } from "@/lib/blog";
 import { getAllProjects } from "@/lib/projects";
-import { $Enums } from "@prisma/client";
-
-const { InteractionType } = $Enums;
+import { InteractionType } from "@prisma/client";
 
 interface AdminDashboardPageProps {
   searchParams: Promise<{ tab?: string }>;
