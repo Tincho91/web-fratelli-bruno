@@ -2,6 +2,8 @@
 import ProjectForm from "@/components/admin/ProjectForm";
 import { getProjectById } from "@/lib/projects";
 import { getAllPosts } from "@/lib/blog";
+type PostResult = Awaited<ReturnType<typeof getAllPosts>>[number];
+
 
 interface EditProjectPageProps {
   params: Promise<{
@@ -46,7 +48,7 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
 
       <ProjectForm
         mode="edit"
-        posts={posts.map((post) => ({ id: post.id, title: post.title, slug: post.slug }))}
+        posts={posts.map((post: PostResult) => ({ id: post.id, title: post.title, slug: post.slug }))}
         initialData={projectData}
       />
     </div>
