@@ -94,7 +94,6 @@ model BlogPost {
   authorId           String
   author             User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
   relatedProjects    ProjectGalleryItem[] @relation("ProjectRelatedPost")
-  interactionEvents  InteractionEvent[]   @relation("PostInteractions")
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
 }
@@ -111,27 +110,10 @@ model ProjectGalleryItem {
   relatedPostId      String?
   createdBy          User?             @relation(fields: [createdById], references: [id], onDelete: SetNull)
   relatedPost        BlogPost?         @relation("ProjectRelatedPost", fields: [relatedPostId], references: [id], onDelete: SetNull)
-  interactionEvents  InteractionEvent[] @relation("ProjectInteractions")
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 }
-enum InteractionType {
-  SITE_VISIT
-  ARTICLE_VIEW
-  PROJECT_VIEW
-  CONTACT_FORM
-  CONTACT_EMAIL
-  CONTACT_PHONE
-}
 
-model InteractionEvent {
-  id        String          @id @default(cuid())
-  type      InteractionType
-  postId    String?
-  projectId String?
-  metadata  Json?
-  createdAt DateTime        @default(now())
-  post      BlogPost?       @relation("PostInteractions", fields: [postId], references: [id], onDelete: Cascade)
-  project   ProjectGalleryItem? @relation("ProjectInteractions", fields: [projectId], references: [id], onDelete: Cascade)
-}
+
+
 

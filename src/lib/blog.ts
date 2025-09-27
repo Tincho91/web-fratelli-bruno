@@ -1,4 +1,4 @@
-﻿import { prisma } from "./prisma";
+import { prisma } from "./prisma";
 import { BlogStatus } from "@prisma/client";
 
 export async function getPublishedPosts(limit = 12) {
@@ -55,12 +55,9 @@ export async function getAllPosts() {
       publishedAt: true,
       createdAt: true,
       updatedAt: true,
-      _count: {
-        select: {
-          interactionEvents: true,
-        },
-      },
     },
   });
 }
+
+
 

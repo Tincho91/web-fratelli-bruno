@@ -1,4 +1,4 @@
-﻿import { prisma } from "./prisma";
+import { prisma } from "./prisma";
 
 export async function getPublishedProjects(limit = 24) {
   return prisma.projectGalleryItem.findMany({
@@ -39,11 +39,6 @@ export async function getAllProjects() {
       },
       createdAt: true,
       updatedAt: true,
-      _count: {
-        select: {
-          interactionEvents: true,
-        },
-      },
     },
   });
 }
@@ -63,3 +58,6 @@ export async function getProjectById(id: string) {
     },
   });
 }
+
+
+

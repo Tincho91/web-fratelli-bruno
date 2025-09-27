@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AnalyticsInitializer from "@/components/analytics/AnalyticsInitializer";
 
 const heading = Space_Grotesk({ subsets: ["latin"], variable: "--font-heading" });
 const body = Inter({ subsets: ["latin"], variable: "--font-body" });
@@ -24,7 +23,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_82%_18%,rgba(116,104,255,0.12),transparent_70%)] opacity-70" />
           <div className="absolute inset-0 bg-[radial-gradient(140%_120%_at_50%_115%,rgba(247,227,125,0.08),transparent_80%)] opacity-60" />
         </div>
-        <AnalyticsInitializer />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
@@ -32,4 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
+
+
+
 
