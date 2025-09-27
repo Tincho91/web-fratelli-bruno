@@ -1,6 +1,7 @@
 ﻿import { notFound } from "next/navigation";
 import ProjectForm from "@/components/admin/ProjectForm";
-import { prisma } from "@/lib/prisma";
+import { getProjectById } from "@/lib/projects";
+import { getAllPosts } from "@/lib/blog";
 
 interface EditProjectPageProps {
   params: Promise<{
@@ -16,32 +17,24 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
   const { id } = await params;
 
   const [project, posts] = await Promise.all([
-    prisma.projectGalleryItem.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        description: true,
-        showcaseDate: true,
-        mainImageUrl: true,
-        mainImageKey: true,
-        secondaryImageUrl: true,
-        secondaryImageKey: true,
-        relatedPostId: true,
-      },
-    }),
-    prisma.blogPost.findMany({
-      orderBy: { title: "asc" },
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-      },
-    }),
+    getProjectById(id),
+    getAllPosts(),
   ]);
 
   if (!project) {
     notFound();
   }
+
+  const projectData = {
+    id: project.id,
+    description: project.description,
+    showcaseDate: project.showcaseDate.toISOString(),
+    mainImageUrl: project.mainImageUrl,
+    mainImageKey: project.mainImageKey,
+    secondaryImageUrl: project.secondaryImageUrl,
+    secondaryImageKey: project.secondaryImageKey,
+    relatedPostId: project.relatedPostId,
+  };
 
   return (
     <div className="space-y-10">
@@ -53,17 +46,8 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
 
       <ProjectForm
         mode="edit"
-        posts={posts}
-        initialData={{
-          id: project.id,
-          description: project.description,
-          showcaseDate: project.showcaseDate.toISOString(),
-          mainImageUrl: project.mainImageUrl,
-          mainImageKey: project.mainImageKey,
-          secondaryImageUrl: project.secondaryImageUrl,
-          secondaryImageKey: project.secondaryImageKey,
-          relatedPostId: project.relatedPostId,
-        }}
+        posts={posts.map((post) => ({ id: post.id, title: post.title, slug: post.slug }))}
+        initialData={projectData}
       />
     </div>
   );
