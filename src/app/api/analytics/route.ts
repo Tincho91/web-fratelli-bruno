@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { InteractionType } from "@prisma/client";
+import { InteractionType } from "@/lib/interaction-type";
 import { z } from "zod";
 
 const payloadSchema = z.object({
