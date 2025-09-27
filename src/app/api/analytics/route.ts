@@ -1,13 +1,13 @@
 ﻿import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { InteractionType } from "@prisma/client";
+import { InteractionType, Prisma } from "@prisma/client";
 import { z } from "zod";
 
 const payloadSchema = z.object({
   type: z.nativeEnum(InteractionType),
   postSlug: z.string().min(1).optional(),
   projectId: z.string().min(1).optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
         type: data.type,
         postId,
         projectId,
-        metadata: data.metadata ?? null,
+        metadata: data.metadata ? (data.metadata as Prisma.JsonObject) : Prisma.JsonNull,
       },
     });
 
