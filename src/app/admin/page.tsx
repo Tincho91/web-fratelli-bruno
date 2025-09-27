@@ -2,6 +2,9 @@ import AdminDashboardTabs from "@/components/admin/AdminDashboardTabs";
 import { getAllPosts } from "@/lib/blog";
 import { getAllProjects } from "@/lib/projects";
 
+type PostResult = Awaited<ReturnType<typeof getAllPosts>>[number];
+type ProjectResult = Awaited<ReturnType<typeof getAllProjects>>[number];
+
 interface AdminDashboardPageProps {
   searchParams: Promise<{ tab?: string }>;
 }
@@ -11,7 +14,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
 
   const [posts, projects] = await Promise.all([getAllPosts(), getAllProjects()]);
 
-  const serializedPosts = posts.map((post) => ({
+  const serializedPosts = posts.map((post: PostResult) => ({
     id: post.id,
     title: post.title,
     slug: post.slug,
@@ -22,7 +25,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
     updatedAt: post.updatedAt.toISOString(),
   }));
 
-  const serializedProjects = projects.map((project) => ({
+  const serializedProjects = projects.map((project: ProjectResult) => ({
     id: project.id,
     description: project.description,
     showcaseDate: project.showcaseDate.toISOString(),
@@ -43,4 +46,6 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
     </div>
   );
 }
+
+
 
