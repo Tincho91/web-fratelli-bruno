@@ -1,5 +1,7 @@
 ﻿import Link from "next/link";
 import { getAllProjects } from "@/lib/projects";
+type ProjectResult = Awaited<ReturnType<typeof getAllProjects>>[number];
+
 
 function formatDate(value: Date) {
   return new Intl.DateTimeFormat("it-IT", {
@@ -14,7 +16,7 @@ export const metadata = {
 };
 
 export default async function AdminProjectsPage() {
-  const projects = await getAllProjects();
+  const projects: ProjectResult[] = await getAllProjects();
 
   return (
     <div className="space-y-10">
@@ -44,7 +46,7 @@ export default async function AdminProjectsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-sepia/10">
-              {projects.map((project) => (
+              {projects.map((project: ProjectResult) => (
                 <tr key={project.id} className="text-sm text-ink/80">
                   <td className="px-6 py-4">
                     <p className="max-w-xl max-h-16 overflow-hidden text-ellipsis">{project.description}</p>
