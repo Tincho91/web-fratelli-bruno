@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { deleteProject, getProjectById, updateProject, UpdateProjectInput } from "@/lib/projects";
 import { projectPayloadSchema } from "@/lib/validators/projects";
 
 interface RouteContext {
@@ -51,9 +52,9 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
 
   const { id } = await params;
 
-  const exists = await prisma.projectGalleryItem.findUnique({ where: { id } });
+  const existing = await getProjectById(id);
 
-  if (!exists) {
+  if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
@@ -75,23 +76,17 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
     }
   }
 
-  const project = await prisma.projectGalleryItem.update({
-    where: { id },
-    data: {
-      description: data.description,
-      showcaseDate,
-      mainImageUrl: data.mainImageUrl,
-      mainImageKey: data.mainImageKey ?? null,
-      secondaryImageUrl: data.secondaryImageUrl ?? null,
-      secondaryImageKey: data.secondaryImageKey ?? null,
-      relatedPostId,
-    },
-    select: {
-      id: true,
-      showcaseDate: true,
-      updatedAt: true,
-    },
-  });
+  const updateData: UpdateProjectInput = {
+    description: data.description,
+    showcaseDate,
+    mainImageUrl: data.mainImageUrl,
+    mainImageKey: data.mainImageKey ?? null,
+    secondaryImageUrl: data.secondaryImageUrl ?? null,
+    secondaryImageKey: data.secondaryImageKey ?? null,
+    relatedPostId,
+  };
+
+  const project = await updateProject(id, updateData);
 
   return NextResponse.json({ data: project });
 }
@@ -105,13 +100,13 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
 
   const { id } = await params;
 
-  const exists = await prisma.projectGalleryItem.findUnique({ where: { id } });
+  const existing = await getProjectById(id);
 
-  if (!exists) {
+  if (!existing) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  await prisma.projectGalleryItem.delete({ where: { id } });
+  await deleteProject(id);
 
   return new NextResponse(null, { status: 204 });
 }
