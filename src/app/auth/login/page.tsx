@@ -29,7 +29,6 @@ export default async function LoginPage() {
           </p>
         </div>
         <div className="relative rounded-3xl border border-border/40 bg-background/70 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.45)]">
-          <div className="absolute inset-x-10 -top-10 hidden h-[120px] rounded-full bg-gradient-to-r from-accent/25 via-transparent to-accent/15 blur-[120px] opacity-70 md:block" aria-hidden />
           <LoginForm />
         </div>
         <div className="text-xs uppercase tracking-[0.35em] text-muted/80">

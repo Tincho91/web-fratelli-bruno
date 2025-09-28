@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import clsx from "clsx";
+import { ChevronDown } from "lucide-react";
 
 interface DashboardPost {
   id: string;
@@ -34,6 +35,86 @@ interface AdminDashboardTabsProps {
 }
 
 const TAB_KEYS = ["overview", "posts", "projects"] as const;
+const STATUS_OPTIONS = [
+  { value: "all", label: "Tutti" },
+  { value: "published", label: "Pubblicati" },
+  { value: "draft", label: "Bozze" },
+];
+
+function StatusFilter({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleClick = (event: MouseEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [open]);
+
+  const selected = STATUS_OPTIONS.find((option) => option.value === value) ?? STATUS_OPTIONS[0];
+
+  return (
+    <div ref={containerRef} className="relative inline-flex w-[182px] sm:w-[210px]">
+      <button
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label="Filtra per stato"
+        onClick={() => setOpen((prev) => !prev)}
+        className={clsx(
+          "flex w-full items-center justify-between gap-3 rounded-full border border-border/60 bg-background/95 backdrop-blur-sm px-4 py-2 text-left text-xs uppercase tracking-[0.35em] text-foreground transition-all duration-200 whitespace-nowrap",
+          open && "rounded-b-none border-b-0 bg-background/90 text-accent shadow-[0_18px_38px_rgba(0,0,0,0.45)]",
+        )}
+      >
+        <span className="inline-flex items-center gap-2">{selected.label}</span>
+        <ChevronDown className={clsx("h-4 w-4 transition", open ? "rotate-180 text-accent" : "text-foreground/50")} />
+      </button>
+      {open && (
+        <div className="absolute left-0 right-0 top-full z-20 overflow-hidden rounded-b-[1.75rem] border border-border/60 border-t-0 bg-black/90 shadow-[0_26px_60px_rgba(0,0,0,0.45)]">
+          <ul role="listbox" className="max-h-60 overflow-y-auto">
+            {STATUS_OPTIONS.map((option) => {
+              const active = option.value === value;
+              return (
+                <li key={option.value}>
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={active}
+                    className={clsx(
+                      "flex w-full items-center justify-between px-4 py-3 text-xs uppercase tracking-[0.35em] transition-colors",
+                      active ? "bg-accent/10 text-accent" : "text-foreground/70 hover:bg-accent/10 hover:text-accent",
+                    )}
+                    onClick={() => {
+                      onChange(option.value);
+                      setOpen(false);
+                    }}
+                  >
+                    {option.label}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function formatDate(value?: string | null) {
   if (!value) return "-";
@@ -206,17 +287,9 @@ export default function AdminDashboardTabs({ posts, projects, defaultTab }: Admi
                 value={postSearch}
                 onChange={(event) => setPostSearch(event.target.value)}
                 placeholder="Cerca per titolo o slug"
-                className="w-52 rounded-2xl border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
+                className="w-52 rounded-2xl border border-border/60 bg-transparent px-4 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
               />
-              <select
-                value={postStatus}
-                onChange={(event) => setPostStatus(event.target.value)}
-                className="rounded-2xl border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
-              >
-                <option value="all">Tutti</option>
-                <option value="published">Pubblicati</option>
-                <option value="draft">Bozze</option>
-              </select>
+              <StatusFilter value={postStatus} onChange={setPostStatus} />
             </div>
             <Link
               href="/admin/posts/new"
@@ -301,7 +374,7 @@ export default function AdminDashboardTabs({ posts, projects, defaultTab }: Admi
                 value={projectSearch}
                 onChange={(event) => setProjectSearch(event.target.value)}
                 placeholder="Cerca per descrizione"
-                className="w-64 rounded-2xl border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
+                className="w-64 rounded-2xl border border-border/60 bg-transparent px-4 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
               />
             </div>
             <Link

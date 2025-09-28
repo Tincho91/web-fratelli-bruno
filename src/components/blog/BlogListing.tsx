@@ -110,7 +110,7 @@ type FilterSelectProps = {
   onChange: (value: string) => void;
 };
 
-function FilterSelect({ icon: Icon, label, value, options, onChange }: FilterSelectProps) {
+function FilterSelect({ icon: Icon, label, value, options, onChange, className }: FilterSelectProps & { className?: string }) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -140,7 +140,8 @@ function FilterSelect({ icon: Icon, label, value, options, onChange }: FilterSel
   const selected = options.find((option) => option.value === value);
 
   return (
-    <div ref={containerRef} className="relative w-[168px] sm:w-[210px]">
+    <div ref={containerRef} className={cn("relative inline-flex w-auto", className)}>
+
       <button
         type="button"
         aria-haspopup="listbox"
@@ -148,7 +149,7 @@ function FilterSelect({ icon: Icon, label, value, options, onChange }: FilterSel
         aria-label={label}
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          "flex w-full items-center justify-between gap-3 rounded-full border border-border/60  bg-background/95 backdrop-blur-sm px-4 py-2 text-left text-xs uppercase tracking-[0.35em] text-foreground transition-all duration-200",
+          "flex w-full items-center justify-between gap-3 rounded-full border border-border/60 bg-background/95 backdrop-blur-sm px-4 py-2 text-left text-xs uppercase tracking-[0.35em] text-foreground transition-all duration-200 whitespace-nowrap",
           open && "rounded-b-none border-b-0 bg-background/90 text-accent shadow-[0_18px_38px_rgba(0,0,0,0.45)]"
         )}
       >
@@ -328,6 +329,7 @@ export function BlogListing({ posts, categoryLabels }: BlogListingProps) {
       <div className="flex flex-wrap items-center gap-3 sm:gap-6 sm:items-end sm:justify-between">
         <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <FilterSelect
+            className="min-w-[152px] flex-1 sm:flex-none"
             icon={Calendar}
             label="Periodo"
             value={dateFilter}
@@ -335,6 +337,7 @@ export function BlogListing({ posts, categoryLabels }: BlogListingProps) {
             options={DATE_FILTER_OPTIONS}
           />
           <FilterSelect
+            className="min-w-[152px] flex-1 sm:flex-none"
             icon={Tag}
             label="Categorie"
             value={category}
@@ -343,12 +346,12 @@ export function BlogListing({ posts, categoryLabels }: BlogListingProps) {
           />
         </div>
 
-        <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/70 p-[6px] ml-auto self-center sm:self-auto">
+        <div className="inline-flex h-10 items-center gap-2 rounded-full border border-border/60 bg-background/70 px-2 ml-auto flex-shrink-0">
           <button
             type="button"
             onClick={() => setViewMode("grid")}
             className={cn(
-              "flex h-9 w-9 items-center justify-center rounded-full text-foreground/60 transition",
+              "flex h-8 w-8 items-center justify-center rounded-full text-foreground/60 transition",
               viewMode === "grid" ? "bg-foreground/10 text-accent" : "hover:text-foreground"
             )}
             aria-pressed={viewMode === "grid"}
@@ -359,7 +362,7 @@ export function BlogListing({ posts, categoryLabels }: BlogListingProps) {
             type="button"
             onClick={() => setViewMode("list")}
             className={cn(
-              "flex h-9 w-9 items-center justify-center rounded-full text-foreground/60 transition",
+              "flex h-8 w-8 items-center justify-center rounded-full text-foreground/60 transition",
               viewMode === "list" ? "bg-foreground/10 text-accent" : "hover:text-foreground"
             )}
             aria-pressed={viewMode === "list"}
