@@ -47,7 +47,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
           <span className="text-xs uppercase tracking-[0.5em] text-muted">Console operativa</span>
           <h1 className="text-4xl font-heading uppercase tracking-tight text-foreground">Pannello di controllo</h1>
           <p className="max-w-2xl text-sm text-foreground/70">
-            Monitora pubblicazioni, coordina progetti e mantieni coerente la presenza del brand con l'estetica Fratelli Bruno.
+            Monitora pubblicazioni, coordina progetti e mantieni coerente la presenza del brand con l&apos;estetica Fratelli Bruno.
           </p>
         </header>
 

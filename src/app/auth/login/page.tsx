@@ -33,7 +33,7 @@ export default async function LoginPage() {
         </div>
         <div className="text-xs uppercase tracking-[0.35em] text-muted/80">
           <p>Supporto interno - operations@fratellibruno.it</p>
-          <p>Per assistenza contatta l'ufficio digitale</p>
+          <p>Per assistenza contatta l&apos;ufficio digitale</p>
         </div>
       </div>
     </div>
