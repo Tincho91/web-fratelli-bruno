@@ -144,15 +144,17 @@ export default function AdminDashboardTabs({ posts, projects, defaultTab }: Admi
   };
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap items-center gap-3">
+    <div className="space-y-12">
+      <div className="flex flex-wrap items-center gap-3 rounded-full border border-border/60 bg-background/60 px-4 py-3 shadow-[0_20px_40px_rgba(0,0,0,0.35)]">
         {TAB_KEYS.map((tab) => (
           <button
             key={tab}
             type="button"
             className={clsx(
-              "rounded-full px-4 py-2 text-sm font-semibold transition",
-              activeTab === tab ? "bg-sepia text-old-paper shadow" : "bg-white/80 text-ink hover:bg-sepia/10",
+              "rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] transition-colors duration-300",
+              activeTab === tab
+                ? "border-accent bg-accent/20 text-accent shadow-[0_18px_38px_rgba(0,0,0,0.45)]"
+                : "border-border/60 bg-background/60 text-foreground/60 hover:border-accent hover:text-accent",
             )}
             onClick={() => handleTabChange(tab)}
           >
@@ -161,7 +163,7 @@ export default function AdminDashboardTabs({ posts, projects, defaultTab }: Admi
             {tab === "projects" && "Progetti"}
           </button>
         ))}
-        {isPending && <span className="text-xs text-ink/60">Aggiornando…</span>}
+        {isPending && <span className="text-xs text-foreground/60">Aggiornamento...</span>}
       </div>
 
       {activeTab === "overview" && (
@@ -198,18 +200,18 @@ export default function AdminDashboardTabs({ posts, projects, defaultTab }: Admi
       {activeTab === "posts" && (
         <section className="space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3 rounded-full border border-border/60 bg-background/60 px-4 py-3 shadow-[0_20px_40px_rgba(0,0,0,0.35)]">
               <input
                 type="search"
                 value={postSearch}
                 onChange={(event) => setPostSearch(event.target.value)}
                 placeholder="Cerca per titolo o slug"
-                className="w-52 rounded-xl border border-sepia/30 bg-white/80 px-3 py-2 text-sm text-ink focus:border-sepia focus:outline-none focus:ring-2 focus:ring-sepia/30"
+                className="w-52 rounded-2xl border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
               />
               <select
                 value={postStatus}
                 onChange={(event) => setPostStatus(event.target.value)}
-                className="rounded-xl border border-sepia/30 bg-white/80 px-3 py-2 text-sm text-ink focus:border-sepia focus:outline-none focus:ring-2 focus:ring-sepia/30"
+                className="rounded-2xl border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
               >
                 <option value="all">Tutti</option>
                 <option value="published">Pubblicati</option>
@@ -218,17 +220,17 @@ export default function AdminDashboardTabs({ posts, projects, defaultTab }: Admi
             </div>
             <Link
               href="/admin/posts/new"
-              className="rounded-full bg-sepia px-4 py-2 text-sm font-semibold text-old-paper shadow-sm transition hover:bg-ink"
+              className="rounded-full border border-border/60 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-foreground transition-all duration-300 hover:border-accent hover:text-accent md:text-sm"
             >
               Nuovo articolo
             </Link>
           </div>
 
-          <div className="overflow-hidden rounded-3xl border border-sepia/20 bg-white/85 shadow-sm">
+          <div className="overflow-hidden rounded-3xl border border-border/50 bg-background/80 shadow-[0_28px_60px_rgba(0,0,0,0.45)]">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-sepia/10">
-                <thead className="bg-old-paper/70">
-                  <tr className="text-left text-xs font-semibold uppercase tracking-[0.3em] text-ink/70">
+              <table className="min-w-full divide-y divide-border/40">
+                <thead className="bg-background/75">
+                  <tr className="text-left text-xs font-semibold uppercase tracking-[0.3em] text-foreground/70">
                     <th className="px-6 py-3">Titolo</th>
                     <th className="px-6 py-3">Stato</th>
                     <th className="px-6 py-3">Categoria</th>
@@ -236,32 +238,32 @@ export default function AdminDashboardTabs({ posts, projects, defaultTab }: Admi
                     <th className="px-6 py-3">Azioni</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-sepia/10">
+                <tbody className="divide-y divide-border/40">
                   {filteredPosts.map((post) => (
-                    <tr key={post.id} className="text-sm text-ink/80">
+                    <tr key={post.id} className="text-sm text-foreground/80">
                       <td className="max-w-xs px-6 py-4 align-top">
-                        <p className="font-semibold text-ink">{post.title}</p>
-                        <p className="mt-1 text-xs text-ink/60">{toPlainText(post.excerpt ?? "", 80)}</p>
+                        <p className="font-semibold text-foreground">{post.title}</p>
+                        <p className="mt-1 text-xs text-foreground/60">{toPlainText(post.excerpt ?? "", 80)}</p>
                       </td>
                       <td className="px-6 py-4 align-top">
                         <span
                           className={clsx(
                             "inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide",
                             post.status === "PUBLISHED"
-                              ? "bg-emerald-100 text-emerald-700"
-                              : "bg-yellow-100 text-yellow-700",
+                              ? "bg-emerald-500/15 text-emerald-200"
+                              : "bg-yellow-400/15 text-yellow-200",
                           )}
                         >
                           {post.status === "PUBLISHED" ? "Pubblicato" : "Bozza"}
                         </span>
                       </td>
-                      <td className="px-6 py-4 align-top text-xs uppercase tracking-[0.3em] text-ink/70">{post.category}</td>
+                      <td className="px-6 py-4 align-top text-xs uppercase tracking-[0.3em] text-foreground/70">{post.category}</td>
                       <td className="px-6 py-4 align-top text-sm">{formatDate(post.updatedAt)}</td>
                       <td className="px-6 py-4 align-top">
                         <div className="flex flex-col items-start gap-2 text-sm">
                           <Link
                             href={`/admin/posts/${post.slug}/edit`}
-                            className="font-semibold text-sepia transition hover:text-ink"
+                            className="font-semibold text-accent transition hover:text-foreground"
                           >
                             Modifica
                           </Link>
@@ -278,7 +280,7 @@ export default function AdminDashboardTabs({ posts, projects, defaultTab }: Admi
                   ))}
                   {filteredPosts.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="px-6 py-12 text-center text-sm text-ink/60">
+                      <td colSpan={5} className="px-6 py-12 text-center text-sm text-foreground/60">
                         Nessun articolo corrisponde ai filtri selezionati.
                       </td>
                     </tr>
@@ -293,37 +295,39 @@ export default function AdminDashboardTabs({ posts, projects, defaultTab }: Admi
       {activeTab === "projects" && (
         <section className="space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <input
-              type="search"
-              value={projectSearch}
-              onChange={(event) => setProjectSearch(event.target.value)}
-              placeholder="Cerca per descrizione"
-              className="w-64 rounded-xl border border-sepia/30 bg-white/80 px-3 py-2 text-sm text-ink focus:border-sepia focus:outline-none focus:ring-2 focus:ring-sepia/30"
-            />
+            <div className="flex flex-wrap items-center gap-3 rounded-full border border-border/60 bg-background/60 px-4 py-3 shadow-[0_20px_40px_rgba(0,0,0,0.35)]">
+              <input
+                type="search"
+                value={projectSearch}
+                onChange={(event) => setProjectSearch(event.target.value)}
+                placeholder="Cerca per descrizione"
+                className="w-64 rounded-2xl border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
+              />
+            </div>
             <Link
               href="/admin/progetti/new"
-              className="rounded-full bg-sepia px-4 py-2 text-sm font-semibold text-old-paper shadow-sm transition hover:bg-ink"
+              className="rounded-full border border-border/60 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-foreground transition-all duration-300 hover:border-accent hover:text-accent md:text-sm"
             >
               Nuovo progetto
             </Link>
           </div>
 
-          <div className="overflow-hidden rounded-3xl border border-sepia/20 bg-white/85 shadow-sm">
+          <div className="overflow-hidden rounded-3xl border border-border/50 bg-background/80 shadow-[0_28px_60px_rgba(0,0,0,0.45)]">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-sepia/10">
-                <thead className="bg-old-paper/70">
-                  <tr className="text-left text-xs font-semibold uppercase tracking-[0.3em] text-ink/70">
+              <table className="min-w-full divide-y divide-border/40">
+                <thead className="bg-background/75">
+                  <tr className="text-left text-xs font-semibold uppercase tracking-[0.3em] text-foreground/70">
                     <th className="px-6 py-3">Descrizione</th>
                     <th className="px-6 py-3">Data</th>
                     <th className="px-6 py-3">Articolo correlato</th>
                     <th className="px-6 py-3">Azioni</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-sepia/10">
+                <tbody className="divide-y divide-border/40">
                   {filteredProjects.map((project) => (
-                    <tr key={project.id} className="text-sm text-ink/80">
+                    <tr key={project.id} className="text-sm text-foreground/80">
                       <td className="max-w-xl px-6 py-4 align-top">
-                        <p className="whitespace-pre-wrap text-ink/80" style={{ wordBreak: "break-word" }}>
+                        <p className="whitespace-pre-wrap text-foreground/80" style={{ wordBreak: "break-word" }}>
                           {toPlainText(project.description, 140)}
                         </p>
                       </td>
@@ -332,19 +336,19 @@ export default function AdminDashboardTabs({ posts, projects, defaultTab }: Admi
                         {project.relatedPost ? (
                           <Link
                             href={`/blog/${project.relatedPost.slug}`}
-                            className="font-semibold text-sepia transition hover:text-ink"
+                            className="font-semibold text-accent transition hover:text-foreground"
                           >
                             {project.relatedPost.title}
                           </Link>
                         ) : (
-                          <span className="text-ink/60">-</span>
+                          <span className="text-foreground/60">-</span>
                         )}
                       </td>
                       <td className="px-6 py-4 align-top">
                         <div className="flex flex-col items-start gap-2 text-sm">
                           <Link
                             href={`/admin/progetti/${project.id}/edit`}
-                            className="font-semibold text-sepia transition hover:text-ink"
+                            className="font-semibold text-accent transition hover:text-foreground"
                           >
                             Modifica
                           </Link>
@@ -361,7 +365,7 @@ export default function AdminDashboardTabs({ posts, projects, defaultTab }: Admi
                   ))}
                   {filteredProjects.length === 0 && (
                     <tr>
-                      <td colSpan={4} className="px-6 py-12 text-center text-sm text-ink/60">
+                      <td colSpan={4} className="px-6 py-12 text-center text-sm text-foreground/60">
                         Nessun progetto corrisponde ai filtri selezionati.
                       </td>
                     </tr>
@@ -385,24 +389,24 @@ interface RecentTableProps {
 
 function RecentTable({ title, items, emptyLabel, cta }: RecentTableProps) {
   return (
-    <div className="space-y-4 rounded-3xl border border-sepia/20 bg-white/85 p-6 shadow-sm">
+    <div className="space-y-4 rounded-3xl border border-border/50 bg-background/80 p-6 shadow-[0_28px_60px_rgba(0,0,0,0.45)]">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-ink">{title}</h2>
-        <Link href={cta.href} className="text-sm font-semibold text-sepia transition hover:text-ink">
+        <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+        <Link href={cta.href} className="text-sm font-semibold text-accent transition hover:text-foreground">
           {cta.label}
         </Link>
       </div>
       <ul className="space-y-3">
-        {items.length === 0 && <li className="text-sm text-ink/60">{emptyLabel}</li>}
+        {items.length === 0 && <li className="text-sm text-foreground/60">{emptyLabel}</li>}
         {items.map((item) => (
-          <li key={item.id} className="flex items-center justify-between gap-3 rounded-2xl bg-old-paper/40 px-4 py-3">
+          <li key={item.id} className="flex items-center justify-between gap-3 rounded-2xl bg-background/60 px-4 py-3">
             <div>
-              <p className="text-sm font-semibold text-ink">{item.title}</p>
-              {item.subtitle && <p className="text-xs text-ink/60">{item.subtitle}</p>}
+              <p className="text-sm font-semibold text-foreground">{item.title}</p>
+              {item.subtitle && <p className="text-xs text-foreground/60">{item.subtitle}</p>}
             </div>
-            <div className="flex items-center gap-4 text-xs text-ink/60">
+            <div className="flex items-center gap-4 text-xs text-foreground/60">
               {item.meta && <span>{item.meta}</span>}
-              <Link href={item.href} className="text-sm font-semibold text-sepia transition hover:text-ink">
+              <Link href={item.href} className="text-sm font-semibold text-accent transition hover:text-foreground">
                 Gestisci
               </Link>
             </div>

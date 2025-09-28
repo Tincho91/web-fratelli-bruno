@@ -140,7 +140,7 @@ function FilterSelect({ icon: Icon, label, value, options, onChange }: FilterSel
   const selected = options.find((option) => option.value === value);
 
   return (
-    <div ref={containerRef} className="relative w-[210px]">
+    <div ref={containerRef} className="relative w-[168px] sm:w-[210px]">
       <button
         type="button"
         aria-haspopup="listbox"
@@ -325,8 +325,8 @@ export function BlogListing({ posts, categoryLabels }: BlogListingProps) {
 
   return (
     <div className="space-y-12">
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+      <div className="flex flex-wrap items-center gap-3 sm:gap-6 sm:items-end sm:justify-between">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <FilterSelect
             icon={Calendar}
             label="Periodo"
@@ -343,7 +343,7 @@ export function BlogListing({ posts, categoryLabels }: BlogListingProps) {
           />
         </div>
 
-        <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/70 p-1">
+        <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/70 p-[6px] ml-auto self-center sm:self-auto">
           <button
             type="button"
             onClick={() => setViewMode("grid")}

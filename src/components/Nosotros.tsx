@@ -25,7 +25,7 @@ const highlights = [
 
 export default function Nosotros() {
   return (
-    <section id="noi" className="relative z-20 py-32">
+    <section id="noi" className="relative z-20 overflow-hidden py-32 lg:overflow-visible">
       <div className="relative mx-auto grid max-w-6xl gap-16 px-6 sm:px-8 lg:grid-cols-[1.05fr,0.95fr] lg:px-0">
         <motion.div
           initial={{ opacity: 0, y: 40 }}

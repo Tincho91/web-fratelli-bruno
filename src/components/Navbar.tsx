@@ -36,7 +36,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const isBlogRoute = pathname?.startsWith("/blog") ?? false;
-  const navItems = isBlogRoute ? BLOG_NAV_ITEMS : NAV_ITEMS;
+  const isAdminRoute = pathname?.startsWith("/admin") ?? false;
+  const navItems = isBlogRoute || isAdminRoute ? BLOG_NAV_ITEMS : NAV_ITEMS;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,7 +63,7 @@ export default function Navbar() {
     <nav className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-4">
       <div
         className={cn(
-          "pointer-events-auto flex w-full max-w-6xl items-center justify-between rounded-full border border-transparent px-6 transition-all duration-500",
+          "pointer-events-auto flex w-full max-w-full items-center justify-between rounded-full border border-transparent px-4 transition-all duration-500 md:max-w-6xl md:px-6",
           scrolled
             ? "mt-4 bg-background/85 py-4 backdrop-blur-xl border-border/60 shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
             : "mt-8 bg-transparent py-6"
@@ -70,15 +71,15 @@ export default function Navbar() {
       >
         <Link
           href="/"
-          className="text-sm uppercase tracking-[0.45em] text-muted transition-colors hover:text-foreground"
+          className="text-base font-heading uppercase text-muted transition-colors hover:text-foreground md:text-lg lg:text-xl"
         >
           Fratelli Bruno
         </Link>
 
-        <div className="hidden items-center gap-10 md:flex">
+        <div className="hidden items-center gap-6 md:flex md:gap-6 lg:gap-10">
           {navItems.map((item) => {
             const className =
-              "text-[0.7rem] uppercase tracking-[0.35em] text-foreground/80 transition-colors duration-300 hover:text-accent";
+              "text-[0.7rem] font-semibold uppercase text-foreground/80 transition-colors duration-300 hover:text-accent md:text-sm lg:text-base";
 
             if (item.mode === "link") {
               return (
@@ -101,7 +102,7 @@ export default function Navbar() {
           })}
           <Link
             href="/auth/login"
-            className="rounded-full border border-border/60 px-5 py-2 text-[0.65rem] uppercase tracking-[0.4em] text-foreground transition-all duration-300 hover:border-accent hover:text-accent"
+            className="rounded-full border border-border/60 px-5 py-2 text-[0.7rem] font-semibold uppercase text-foreground transition-all duration-300 hover:border-accent hover:text-accent md:text-sm lg:text-base"
           >
             Admin
           </Link>
@@ -123,48 +124,63 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="pointer-events-auto fixed inset-0 z-40 flex flex-col gap-8 bg-background/95 px-6 py-28 backdrop-blur-xl md:hidden"
+            className="pointer-events-auto fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
           >
-            <div className="flex flex-col gap-6">
-              {navItems.map((item) => {
-                if (item.mode === "link") {
+            <div
+              className="relative flex h-full flex-col gap-8 px-6 pb-16 pt-24"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                className="absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-full border border-border/60 text-foreground transition-colors duration-300 hover:border-accent hover:text-accent"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Chiudi menu"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="flex flex-col gap-6">
+                {navItems.map((item) => {
+                  if (item.mode === "link") {
+                    return (
+                      <Link
+                        key={item.key}
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-xl font-semibold uppercase text-foreground transition-colors duration-300 hover:text-accent"
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  }
+
                   return (
-                    <Link
+                    <button
                       key={item.key}
-                      href={item.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-lg uppercase tracking-[0.4em] text-foreground transition-colors duration-300 hover:text-accent"
+                      type="button"
+                      onClick={() => {
+                        scrollToSection(item.key);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="text-left text-xl font-semibold uppercase text-foreground transition-colors duration-300 hover:text-accent"
                     >
                       {item.label}
-                    </Link>
+                    </button>
                   );
-                }
+                })}
+              </div>
 
-                return (
-                  <button
-                    key={item.key}
-                    type="button"
-                    onClick={() => {
-                      scrollToSection(item.key);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="text-left text-lg uppercase tracking-[0.4em] text-foreground transition-colors duration-300 hover:text-accent"
-                  >
-                    {item.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="mt-auto flex flex-col gap-4 text-sm text-muted">
-              <span className="text-xs uppercase tracking-[0.4em] text-foreground/60">Stay connected</span>
-              <Link
-                href="/auth/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-sm uppercase tracking-[0.3em] text-foreground transition-colors hover:text-accent"
-              >
-                Admin access
-              </Link>
+              <div className="mt-auto flex flex-col gap-4 text-sm text-muted">
+                <span className="text-xs uppercase tracking-[0.3em] text-foreground/60">Stay connected</span>
+                <Link
+                  href="/auth/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-sm uppercase text-foreground transition-colors hover:text-accent"
+                >
+                  Admin access
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}

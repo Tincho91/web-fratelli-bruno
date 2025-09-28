@@ -10,7 +10,7 @@ import Contatti from "@/components/Contacto";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="relative isolate min-h-screen flex flex-col">
       <Header />
       <Nosotros />
       <Servicios />

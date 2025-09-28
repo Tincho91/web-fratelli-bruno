@@ -14,6 +14,7 @@
 @layer base {
   body {
     @apply font-body bg-background text-foreground antialiased;
+    overflow-x: hidden;
     background-image:
       radial-gradient(circle at 15% 15%, rgba(247, 227, 125, 0.08), transparent 45%),
       radial-gradient(circle at 82% 12%, rgba(116, 104, 255, 0.08), transparent 40%),
