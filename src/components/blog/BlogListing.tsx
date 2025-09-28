@@ -108,6 +108,7 @@ type FilterSelectProps = {
   value: string;
   options: FilterOption[];
   onChange: (value: string) => void;
+  className?: string;
 };
 
 function FilterSelect({ icon: Icon, label, value, options, onChange, className }: FilterSelectProps & { className?: string }) {

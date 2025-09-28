@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { auth, signOut } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 
 export const metadata = {
   title: "Pannello Amministrativo | Fratelli Bruno",
@@ -11,11 +10,6 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   if (session?.user?.role !== "ADMIN") {
     redirect("/auth/login");
-  }
-
-  async function handleSignOut() {
-    "use server";
-    await signOut({ redirectTo: "/" });
   }
 
   return (

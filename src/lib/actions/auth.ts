@@ -1,8 +1,8 @@
-﻿"use server";
+"use server";
 
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
-import { signIn } from "@/lib/auth";
+import { signIn, signOut } from "@/lib/auth";
 
 export async function authenticate(_: unknown, formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
@@ -32,4 +32,8 @@ export async function authenticate(_: unknown, formData: FormData) {
   }
 
   redirect("/admin");
+}
+
+export async function logout() {
+  await signOut({ redirectTo: "/auth/login" });
 }

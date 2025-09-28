@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { cn } from "../../libs/utils";
+import { logout } from "@/lib/actions/auth";
 
 type NavItem =
   | { key: string; label: string; mode: "scroll" }
@@ -100,12 +101,23 @@ export default function Navbar() {
               </button>
             );
           })}
-          <Link
-            href="/auth/login"
-            className="rounded-full border border-border/60 px-5 py-2 text-[0.7rem] font-semibold uppercase text-foreground transition-all duration-300 hover:border-accent hover:text-accent md:text-sm lg:text-base"
-          >
-            Admin
-          </Link>
+          {isAdminRoute ? (
+            <form action={logout} className="contents">
+              <button
+                type="submit"
+                className="rounded-full border border-border/60 px-5 py-2 text-[0.7rem] font-semibold uppercase text-foreground transition-all duration-300 hover:border-accent hover:text-accent md:text-sm lg:text-base"
+              >
+                Logout
+              </button>
+            </form>
+          ) : (
+            <Link
+              href="/auth/login"
+              className="rounded-full border border-border/60 px-5 py-2 text-[0.7rem] font-semibold uppercase text-foreground transition-all duration-300 hover:border-accent hover:text-accent md:text-sm lg:text-base"
+            >
+              Admin
+            </Link>
+          )}
         </div>
 
         <button
@@ -173,13 +185,23 @@ export default function Navbar() {
 
               <div className="mt-auto flex flex-col gap-4 text-sm text-muted">
                 <span className="text-xs uppercase tracking-[0.3em] text-foreground/60">Stay connected</span>
-                <Link
-                  href="/auth/login"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-sm uppercase text-foreground transition-colors hover:text-accent"
-                >
-                  Admin access
-                </Link>
+                {isAdminRoute ? (
+                  <form
+                    action={logout}
+                    onSubmit={() => setIsMobileMenuOpen(false)}
+                    className="text-sm uppercase text-foreground transition-colors hover:text-accent"
+                  >
+                    <button type="submit" className="w-full text-left">Logout</button>
+                  </form>
+                ) : (
+                  <Link
+                    href="/auth/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-sm uppercase text-foreground transition-colors hover:text-accent"
+                  >
+                    Admin access
+                  </Link>
+                )}
               </div>
             </div>
           </motion.div>
